@@ -7,8 +7,6 @@ import Course from './pages/Course';
 import Banner from './pages/Banner/Banner';
 import modelInstance from "./data/CourseModel";
 import { ModelContext } from "./ModelContext"
-
-
 import './App.css';
 
 function App() {
