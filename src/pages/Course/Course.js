@@ -5,30 +5,42 @@ import { ModelContext } from '../../ModelContext'
 class Course extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {status: "LOADING", course: null, commentList: null}
+    this.state = { status: "LOADING", course: null, commentList: null }
   }
 
   async componentDidMount() {
     let code = this.props.match.params.code;
     const course = await this.context.model.getCourse(code);
     //const courses = deptJSON.courses;
-    this.setState({status: "LOADED", course: course});
+    this.setState({ status: "LOADED", course: course });
   }
 
   render() {
     const { course } = this.state;
     let htmlInfo = null;
-    if(this.state.status ==="LOADED"){
-      htmlInfo = 
+    if (this.state.status === "LOADED") {
+      console.log(course)
+      htmlInfo =
         [
-          <div class="row"><h3>{course.course.addOn.substring(3,course.course.addOn.length-4)}</h3></div>,
-          <div class="row"><p>{course.course.applicationInfo.substring(3,course.course.applicationInfo.length-4)}</p></div>,
-          <div class="row"><p>{course.course.recruitmentText.substring(3,course.course.recruitmentText.length-4)}</p></div>,
-          <div class="row"><p>{course.course.supplInfoUrl}</p></div>
+          // <div class="row"><h3>{course.course.addOn.substring(3, course.course.addOn.length - 4)}</h3></div>,
+          // <div class="row"><p>{course.course.applicationInfo.substring(3, course.course.applicationInfo.length - 4)}</p></div>,
+          // <div class="row"><p>{course.course.recruitmentText.substring(3, course.course.recruitmentText.length - 4)}</p></div>,
+          // <div class="row"><p>{course.course.supplInfoUrl}</p></div>
         ]
     }
     return (
       <div class="container">
+        <div className="row">
+          {course && course.course ?
+            <>
+              <h3>{course.course.courseCode}: {course.course.title}</h3>
+              {course.course.addOn}
+              {course.course.applicationInfo ? course.course.applicationInfo.substring(3, course.course.applicationInfo.length - 4) : ""}
+              {course.course.recruitmentText}
+            </>
+            : null
+          }
+        </div>
         {htmlInfo}
         <div class="card">
           <div class="card-body">
