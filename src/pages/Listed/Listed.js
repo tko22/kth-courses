@@ -6,8 +6,8 @@ import { ModelContext } from '../../ModelContext'
 
 class Listed extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = {status: "LOADING", htmlList: null}
+    super(props);
+    this.state = {status: "LOADING", htmlList: null};
   }
 
   async componentDidMount() {
@@ -38,8 +38,16 @@ class Listed extends React.Component {
         ));
         this.setState({status: "LOADED", htmlList: htmlCourses});
         break;
+      
+      case "search":
+        let input = this.props.match.params.input;
+        const results = await this.context.model.search(input);
+        let htmlResults = results.map(course=>(
+          <Link to={`/course/${course.code}`}><button type="button" class="list-group-item list-group-item-action">{course.code}<br/>{course.title}</button></Link>
+        ));
+        this.setState({status: "LOADED", htmlList: htmlResults});
+        break;
     }
-    
   }
 
   render() {

@@ -17,6 +17,7 @@ function App() {
           <Route exact path="/" component={Listed} />
           <Route path="/school/:code/:name" component={Listed} />
           <Route path="/department/:code/:schoolCode/:name" component={Listed}/>
+          <Route path="/search/:input" component={Listed}/>
           <Route path="/course/:code" component={Course} />
         </ModelContext.Provider>
       </header>
