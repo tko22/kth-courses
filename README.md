@@ -1,4 +1,6 @@
 # kth-courses
+*Description*: “IMDB for courses”. This app enables students to rate and comment on entire courses as well as specific course content to facilitate the choice of elective courses.
+
 
 ### Contents
 - `api` Backend service using Mongodb for data storage
