@@ -5,53 +5,54 @@ import { ModelContext } from '../../ModelContext'
 class Course extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { status: "LOADING", course: null, overallCommentList: null }
+    this.state = { status: "LOADING", courseKTH: null, courseDB:null, overallCommentList: null, contentsList: null, examinationList:null}
   }
 
   async componentDidMount() {
     let code = this.props.match.params.code;
-    const course = await this.context.model.getCourse(code);
+    const courseKTH = await this.context.model.getCourseKTH(code);
     //const courses = deptJSON.courses;
-    const overallComments = await this.context.model.getOverallComments();
-    let htmlOverallComments = overallComments.map(comment => (
+    let courseDB = await this.context.model.getCourseDB(code);
+    courseDB = courseDB[0];
+    let htmlOverallComments = courseDB.overallComments.map(comment => (
       <li class="list-group-item d-flex justify-content-between align-items-center">
         {comment}
         <span class="badge badge-primary badge-pill">14</span>
       </li>
     ));
-    this.setState({status: "LOADED", course: course, overallCommentList: htmlOverallComments});
+    let htmlCourseContents = courseDB.courseContents.map(comment => (
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {comment}
+        <span class="badge badge-primary badge-pill">14</span>
+      </li>
+    ));
+    let htmlExamination = courseDB.examination.map(comment => (
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {comment}
+        <span class="badge badge-primary badge-pill">14</span>
+      </li>
+    ));
+    this.setState({status: "LOADED", courseKTH:courseKTH, courseDB:courseDB, overallCommentList:htmlOverallComments, contentsList:htmlCourseContents, examinationList:htmlExamination});
   }
 
   render() {
-    const { course } = this.state;
-    let htmlInfo = null;
-    if (this.state.status === "LOADED") {
-      console.log(course)
-      htmlInfo =
-        [
-          // <div class="row"><h3>{course.course.addOn.substring(3, course.course.addOn.length - 4)}</h3></div>,
-          // <div class="row"><p>{course.course.applicationInfo.substring(3, course.course.applicationInfo.length - 4)}</p></div>,
-          // <div class="row"><p>{course.course.recruitmentText.substring(3, course.course.recruitmentText.length - 4)}</p></div>,
-          // <div class="row"><p>{course.course.supplInfoUrl}</p></div>
-        ]
-    }
+    const { courseKTH, courseDB, overallCommentList, contentsList, examinationList} = this.state;
     return (
       <div class="container">
         <div className="row">
-          {course && course.course ?
+          {courseKTH && courseKTH.course ?
             <>
-              <h3>{course.course.courseCode}: {course.course.title}</h3>
-              {course.course.addOn}
-              {course.course.applicationInfo ? course.course.applicationInfo.substring(3, course.course.applicationInfo.length - 4) : ""}
-              {course.course.recruitmentText}
+              <h3>{courseKTH.course.courseCode}: {courseKTH.course.title}</h3>
+              {courseKTH.course.addOn ? courseKTH.course.addOn : ""}
+              {courseKTH.course.applicationInfo ? courseKTH.course.applicationInfo.substring(3, courseKTH.course.applicationInfo.length - 4) : ""}
+              {courseKTH.course.recruitmentText ? courseKTH.course.recruitmentText.substring(3, courseKTH.course.recruitmentText.length - 4) : ""}
             </>
             : null
           }
         </div>
-        {htmlInfo}
         <div class="card">
           <div class="card-body">
-            Overall rating
+            Overall rating: {courseDB ? Math.round(((courseDB.ratings.reduce((accumulator, x)=>accumulator+x,0))/courseDB.ratings.length)*100)/100 : null}
           </div>
         </div>
 
@@ -68,7 +69,7 @@ class Course extends React.Component {
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
               <div class="card-body">
                 <ul class="list-group">
-                  {this.state.overallCommentList}
+                  {overallCommentList}
                 </ul>
               </div>
             </div>
@@ -84,18 +85,7 @@ class Course extends React.Component {
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
               <div class="card-body">
                 <ul class="list-group">
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Comment1
-                    <span class="badge badge-primary badge-pill">14</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Comment2
-                    <span class="badge badge-primary badge-pill">2</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Comment3
-                    <span class="badge badge-primary badge-pill">1</span>
-                  </li>
+                  {contentsList}
                 </ul>
               </div>
             </div>
@@ -110,7 +100,9 @@ class Course extends React.Component {
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
               <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                <ul class="list-group">
+                  {examinationList}
+                </ul>
               </div>
             </div>
           </div>

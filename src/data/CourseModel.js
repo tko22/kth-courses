@@ -1,7 +1,7 @@
 const BASE_URL_KTH = "https://www.kth.se/api/kopps/v2";
 const proxyurl = "https://cors-anywhere.herokuapp.com/";
 const headers = {method: 'GET', mode: 'cors', headers:{ 'Access-Control-Allow-Origin': '*'}};
-const BASE_URL_DB = "https://www.kth-courses.tko.now.sh/api/courses";
+const BASE_URL_DB = "https://kth-courses.tko.now.sh/api/courses";
 class CourseModel {
     constructor() {
         /*this._schoolList = "";
@@ -48,48 +48,25 @@ class CourseModel {
                 console.error("Error:", error);
             });
     }
-    getCourse(courseCode) {
+    getCourseKTH(courseCode) {
         return fetch(`${proxyurl}${BASE_URL_KTH}/course/${courseCode}/detailedinformation?l=en`, headers)
             .then(this.processResponse)
             .catch(error => {
                 console.error("Error:", error);
             });
     }
-    search(searchString){
+    search(searchString) {
         return fetch(`${proxyurl}${BASE_URL_KTH}/courses/search?text_pattern=${searchString}`, headers)
             .then(this.processResponse)
             .catch(error => {
                 console.error("Error:", error);
             });
     }
-    getOverallComments() {
-        return fetch(`${BASE_URL_DB}`)
+
+    getCourseDB(courseCode) {
+        return fetch(`${proxyurl}${BASE_URL_DB}`, headers)
             .then(this.processResponse)
-            .then(response =>{return response.overallComments})
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    }
-    getCourseContentComments() {
-        return fetch(`${BASE_URL_DB}`)
-            .then(this.processResponse)
-            .then(response =>{return response.courseContents})
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    }
-    getExaminationComments() {
-        return fetch(`${BASE_URL_DB}`)
-            .then(this.processResponse)
-            .then(response =>{return response.examination})
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    }
-    getLiteratureComments() {
-        return fetch(`${BASE_URL_DB}`)
-            .then(this.processResponse)
-            .then(response =>{return response.literature})
+            .then(courses=>(courses.filter(course=> course.courseID===courseCode)))
             .catch(error => {
                 console.error("Error:", error);
             });
