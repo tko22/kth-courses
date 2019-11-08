@@ -5,14 +5,21 @@ import { ModelContext } from '../../ModelContext'
 class Course extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { status: "LOADING", course: null, commentList: null }
+    this.state = { status: "LOADING", course: null, overallCommentList: null }
   }
 
   async componentDidMount() {
     let code = this.props.match.params.code;
     const course = await this.context.model.getCourse(code);
     //const courses = deptJSON.courses;
-    this.setState({ status: "LOADED", course: course });
+    const overallComments = await this.context.model.getOverallComments();
+    let htmlOverallComments = overallComments.map(comment => (
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {comment}
+        <span class="badge badge-primary badge-pill">14</span>
+      </li>
+    ));
+    this.setState({status: "LOADED", course: course, overallCommentList: htmlOverallComments});
   }
 
   render() {
@@ -61,18 +68,7 @@ class Course extends React.Component {
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
               <div class="card-body">
                 <ul class="list-group">
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Comment1
-                    <span class="badge badge-primary badge-pill">14</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Comment2
-                    <span class="badge badge-primary badge-pill">2</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Comment3
-                    <span class="badge badge-primary badge-pill">1</span>
-                  </li>
+                  {this.state.overallCommentList}
                 </ul>
               </div>
             </div>
