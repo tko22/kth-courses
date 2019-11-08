@@ -5,7 +5,7 @@ import { ModelContext } from '../../ModelContext'
 class Course extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { status: "LOADING", courseKTH: null, courseDB:null, overallCommentList: null, contentsList: null, examinationList:null}
+    this.state = { status: "LOADING", courseKTH: null, courseDB:null, overallCommentList: null, contentsList: null, examinationList:null, commentInput:null}
   }
 
   async componentDidMount() {
@@ -33,6 +33,10 @@ class Course extends React.Component {
       </li>
     ));
     this.setState({status: "LOADED", courseKTH:courseKTH, courseDB:courseDB, overallCommentList:htmlOverallComments, contentsList:htmlCourseContents, examinationList:htmlExamination});
+  }
+
+  onCommentInputChange = e => {
+    this.setState({ commentInput: e.target.value });
   }
 
   render() {
@@ -68,6 +72,12 @@ class Course extends React.Component {
 
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
               <div class="card-body">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Input" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onCommentInputChange} value={this.state.commentInput} />
+                  <div class="input-group-append">
+                    <button class="btn btn-dark" type="button" onClick={this.context.model.comment()}>Comment</button>
+                  </div>
+                </div>
                 <ul class="list-group">
                   {overallCommentList}
                 </ul>
@@ -84,6 +94,12 @@ class Course extends React.Component {
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
               <div class="card-body">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Input" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onCommentInputChange} value={this.state.commentInput} />
+                  <div class="input-group-append">
+                    <button class="btn btn-dark" type="button" onClick={this.context.model.comment()}>Comment</button>
+                  </div>
+                </div>
                 <ul class="list-group">
                   {contentsList}
                 </ul>
@@ -100,6 +116,12 @@ class Course extends React.Component {
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
               <div class="card-body">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Input" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onCommentInputChange} value={this.state.commentInput} />
+                  <div class="input-group-append">
+                    <button class="btn btn-dark" type="button" onClick={this.context.model.comment()}>Comment</button>
+                  </div>
+                </div>
                 <ul class="list-group">
                   {examinationList}
                 </ul>

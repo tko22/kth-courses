@@ -26,7 +26,7 @@ class Banner extends React.Component {
           <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Input" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onSearchInputChange} value={this.state.searchInput} />
             <div class="input-group-append">
-              <button class="btn btn-dark" type="button" onClick={this.search}></button>
+              <button class="btn btn-dark" type="button" onClick={this.search}>Search</button>
             </div>
           </div>
         </div>
