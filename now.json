@@ -1,15 +1,9 @@
 {
     "name": "kth-courses",
     "version": 2,
-    "env": {
-        "MONGO_URL": "@kth-courses-mongo-uri"
-    },
     "routes": [
         {
-            "handle": "filesystem"
-        },
-        {
-            "src": "(.*)",
+            "src": "(*.)",
             "dest": "public/index.html"
         }
     ]

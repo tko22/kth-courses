@@ -1,7 +1,7 @@
 # kth-courses
 **Description**: “IMDB for courses”. This app enables students to rate and comment on entire courses as well as specific course content to facilitate the choice of elective courses.
 
-This site is deployed at kth-courses.tko.now.sh
+This site is deployed at kth-courses.tko.now.sh;  Backend is deployed kth-courses-backend.tko.now.sh
 
 ### File Structure
 Some of the higher level file structures are dependent on how we deploy our site - we use Zeit Now, a serverless deployment. 
@@ -14,6 +14,9 @@ Some of the higher level file structures are dependent on how we deploy our site
             - `rate.js` function for /api/courses/[id]/rate - to rate course
     - `index.js` - function for /api
 - `lib` utility functions for the backend
+    - `courses.js` - Mongoose Schema for Course. Mongoose is an ORM for MongoDB
+    - `db.js` - connects to MongoDB once
+    - `errorWrap.js` - Middleware to allow us to safely handle errors in async/await code without wrapping each route in try...catch blocks
 - `public` folder holding static files. Folder created by create-react-app
 - `src` React sourcecode
     - `components`
@@ -29,15 +32,16 @@ To get backend running, you will need a .env file to set environment variables, 
 
 To run frontend with npm:
 ```
+cd frontend
 npm install
 npm run start
 ```
 
 It should show up in `localhost:3000`
 
-To run everything at once:
+To run backend
 ```
-npm install now
+cd backend
 now dev
 ```
 

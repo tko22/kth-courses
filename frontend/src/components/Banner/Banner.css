@@ -1,0 +1,8 @@
+.header {
+    background-color: rgb(199, 197, 197);
+    background: linear-gradient(rgba(255, 235, 224, 0.096), rgba(255, 243, 224, 0.157)), url(banner2.jpg);
+    /* background-image: url(banner2.jpg); */
+    background-size: 100%;
+    background-position: 55% 25%;
+    padding: 3%;
+}

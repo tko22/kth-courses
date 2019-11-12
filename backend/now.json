@@ -1,0 +1,7 @@
+{
+    "name": "kth-courses-backend",
+    "version": 2,
+    "env": {
+        "MONGO_URL": "@kth-courses-mongo-uri"
+    }
+}
