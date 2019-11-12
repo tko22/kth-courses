@@ -40,16 +40,6 @@ class Listed extends React.Component {
         this.setState({ status: "LOADED", htmlList: htmlCourses, url: `Department ${deptJSON.department}` });
         break;
 
-      case "search":
-        let input = this.props.match.params.input;
-        const results = await this.context.model.search(input);
-        const { searchHits } = results
-        console.log(searchHits)
-        let htmlResults = searchHits.map(course => (
-          <Link to={`/course/${course.course.courseCode}`}><button type="button" class="list-group-item list-group-item-action">{course.course.courseCode}<br />{course.course.title}</button></Link>
-        ));
-        this.setState({ status: "LOADED", htmlList: htmlResults });
-        break;
       default:
         break;
     }
