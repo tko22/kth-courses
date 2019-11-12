@@ -1,13 +1,31 @@
 # kth-courses
-*Description*: “IMDB for courses”. This app enables students to rate and comment on entire courses as well as specific course content to facilitate the choice of elective courses.
+**Description**: “IMDB for courses”. This app enables students to rate and comment on entire courses as well as specific course content to facilitate the choice of elective courses.
 
+This site is deployed at kth-courses.tko.now.sh
 
-### Contents
-- `api` Backend service using Mongodb for data storage
-- `lib` utility functions for backend
+### File Structure
+Some of the higher level file structures are dependent on how we deploy our site - we use Zeit Now, a serverless deployment. 
+- `api` Backend service using Mongodb for data storage. Zeit Now recognizes the folder /api as serverless functions. URL Path Segments are used through file paths, hence, the inner structure of api. 
+    - `courses`
+        - `index.js` - function for /api/courses
+        - `[id]` - Zeit now specific folder that allows you to put in dynamic data under the query variable `id`
+            - `index.js` for /api/courses/[id] - to get course data
+            - `comment.js` function for /api/courses/[id]/comment - to comment on course
+            - `rate.js` function for /api/courses/[id]/rate - to rate course
+    - `index.js` - function for /api
+- `lib` utility functions for the backend
+- `public` folder holding static files. Folder created by create-react-app
 - `src` React sourcecode
+    - `components`
+    - `data`
+        - `CourseModel.js`
+    - `pages`
+    - `App.js`
+    - `index.js`
+    - `ModelContext.js`: React Context object for the data to be used in components
 
-To get backend running, you will need a .env file to set environment variables
+## Getting Started
+To get backend running, you will need a .env file to set environment variables, one of which includes the MONGO_DB credentials
 
 To run frontend with npm:
 ```
@@ -17,6 +35,11 @@ npm run start
 
 It should show up in `localhost:3000`
 
+To run everything at once:
+```
+npm install now
+now dev
+```
 
 ## API
 Note: All request bodies must be in json
