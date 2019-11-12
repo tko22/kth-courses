@@ -10,7 +10,7 @@ module.exports = cors(
     } = req;
     db.connectToDatabase();
 
-    if (req.method !== "PUT") {
+    if (req.method !== "POST") {
       res.status(400).send("Request method not supported");
       return;
     }

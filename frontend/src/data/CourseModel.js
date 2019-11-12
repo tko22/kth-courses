@@ -78,8 +78,18 @@ class CourseModel {
                 console.error("Error:", error);
             });
     }
-    comment() {
-
+    comment(commentType, text) {
+        return fetch(`${BASE_URL_DB}/DH2642/comment`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({ type: commentType, comment: text })
+        }) //${courseCode}`)
+            .then(this.processResponse)
+            .catch(error => {
+                console.error("Error:", error);
+            });
     }
     /* setCourse(courseCode) {
         this.course = courseCode;

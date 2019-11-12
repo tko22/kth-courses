@@ -80,7 +80,7 @@ response:
 }
 ```
 
-#### PUT /api/courses/[id]/comment
+#### POST /api/courses/[id]/comment
 Add a comment to a course with id.
 
 The request body would have a `type`, which is a comment type for the different commentable sections. This includes: `overallComments`, `courseContents`, `examination`, `literature`, `recommendedPrerequisites`. The comment field is the comment text.
@@ -92,7 +92,7 @@ The request body would have a `type`, which is a comment type for the different 
 ```
 
 
-#### PUT /api/courses/[id]/rate
+#### POST /api/courses/[id]/rate
 Rate a course between 0 and 10
 
 The body just includes the rating. Note that the rating can be a string in json

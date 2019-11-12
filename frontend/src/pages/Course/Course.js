@@ -2,37 +2,19 @@ import React from 'react'
 import './Course.css'
 import { ModelContext } from '../../ModelContext'
 import TextToJSX from '../../components/TextToJSX/TextToJSX'
+import CommentList from '../../components/CommentList/CommentList'
+import CommentGroup from '../../components/CommentGroup/CommentGroup'
 
 class Course extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { status: "LOADING", courseKTH: null, courseDB: null, overallCommentList: null, contentsList: null, examinationList: null, commentInput: null }
+    this.state = { status: "LOADING", courseKTH: null, courseDB: null, commentInput: null }
   }
 
   async componentDidMount() {
     let code = this.props.match.params.code;
     const courseKTH = await this.context.model.getCourseKTH(code);
-    //const courses = deptJSON.courses;
     let courseDB = await this.context.model.getCourseDBDetails(code);
-    // courseDB = courseDB[0];
-    // let htmlOverallComments = courseDB.overallComments.map(comment => (
-    //   <li class="list-group-item d-flex justify-content-between align-items-center">
-    //     {comment}
-    //     <span class="badge badge-primary badge-pill">14</span>
-    //   </li>
-    // ));
-    // let htmlCourseContents = courseDB.courseContents.map(comment => (
-    //   <li class="list-group-item d-flex justify-content-between align-items-center">
-    //     {comment}
-    //     <span class="badge badge-primary badge-pill">14</span>
-    //   </li>
-    // ));
-    // let htmlExamination = courseDB.examination.map(comment => (
-    //   <li class="list-group-item d-flex justify-content-between align-items-center">
-    //     {comment}
-    //     <span class="badge badge-primary badge-pill">14</span>
-    //   </li>
-    // ));
     this.setState({ status: "LOADED", courseKTH, courseDB });
   }
 
@@ -41,8 +23,7 @@ class Course extends React.Component {
   }
 
   render() {
-    const { courseKTH, courseDB } = this.state;
-    console.log(courseDB)
+    const { courseKTH, courseDB, status } = this.state;
     return (
       <div class="container">
         <div className="row">
@@ -58,12 +39,13 @@ class Course extends React.Component {
         </div>
         <div class="card">
           <div class="card-body">
-            Overall rating: {courseDB && courseDB.ratings ? Math.round(((courseDB.ratings.reduce((accumulator, x) => accumulator + x, 0)) / courseDB.ratings.length) * 100) / 100 : null}
+            Overall rating: {courseDB && courseDB.ratings ? Math.round(((courseDB.ratings.reduce((accumulator, x) => accumulator + x, 0)) / courseDB.ratings.length) * 100) / 100 : "DNE"}
           </div>
         </div>
 
         <div id="accordion">
-          <div class="card">
+          <CommentGroup title="Overall comments" commentType="overallComments" comments={courseDB ? courseDB.overallComments : null} />
+          {/* <div class="card">
             <div class="card-header" id="headingOne">
               <h5 class="mb-0">
                 <button class="btn collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
@@ -81,11 +63,12 @@ class Course extends React.Component {
                   </div>
                 </div>
                 <ul class="list-group">
-                  {/* {overallCommentList} */}
+                  <CommentList comments={courseDB ? courseDB.overallComments : null} />
+
                 </ul>
               </div>
             </div>
-          </div>
+          </div> */}
           <div class="card">
             <div class="card-header" id="headingTwo">
               <h5 class="mb-0">
@@ -103,7 +86,7 @@ class Course extends React.Component {
                   </div>
                 </div>
                 <ul class="list-group">
-                  {/* {contentsList} */}
+                  <CommentList comments={courseDB ? courseDB.courseContents : null} />
                 </ul>
               </div>
             </div>
@@ -125,7 +108,7 @@ class Course extends React.Component {
                   </div>
                 </div>
                 <ul class="list-group">
-                  {/* {examinationList} */}
+                  <CommentList comments={courseDB ? courseDB.examination : null} />
                 </ul>
               </div>
             </div>

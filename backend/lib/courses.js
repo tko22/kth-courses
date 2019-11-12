@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
 const Courses = mongoose.Schema({
   name: { type: String },
@@ -8,7 +8,7 @@ const Courses = mongoose.Schema({
   examination: [{ type: String }],
   literature: [{ type: String }],
   recommendedPrerequisites: [{ type: String }],
-  ratings: [{ type: Number }],
-})
+  ratings: [{ type: Number }]
+});
 
-module.exports = mongoose.model('Courses', Courses)
+module.exports = mongoose.model("Courses", Courses);
