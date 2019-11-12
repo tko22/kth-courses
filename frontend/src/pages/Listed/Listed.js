@@ -25,17 +25,15 @@ class Listed extends React.Component {
 
       case "school":
         const depts = await this.context.model.getDepartments(code);
-        console.log(depts)
         let htmlDepts = depts.map(dept => (
           <ListGroupItem link={`/department/${dept.code}/${dept.name}`} name={<>{dept.code}<br />{dept.name.split("/")[1]}</>} />
         ));
-        this.setState({ status: "LOADED", htmlList: htmlDepts, url: `School ${code}` });
+        this.setState({ status: "LOADED", htmlList: htmlDepts, url: `School: ${this.props.match.params.name}` });
         break;
 
       case "department":
         const deptJSON = await this.context.model.getCourses(code);
         const courses = deptJSON.courses;
-        console.log(deptJSON)
         let htmlCourses = courses.map(course => (
           <ListGroupItem link={`/course/${course.code}`} name={<>{course.code}<br />{course.title}</>} />
         ));
@@ -46,6 +44,7 @@ class Listed extends React.Component {
         let input = this.props.match.params.input;
         const results = await this.context.model.search(input);
         const { searchHits } = results
+        console.log(searchHits)
         let htmlResults = searchHits.map(course => (
           <Link to={`/course/${course.course.courseCode}`}><button type="button" class="list-group-item list-group-item-action">{course.course.courseCode}<br />{course.course.title}</button></Link>
         ));

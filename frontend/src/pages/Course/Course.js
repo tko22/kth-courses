@@ -38,8 +38,8 @@ class Course extends React.Component {
           </div>
           <div className="col-md-8">
             <div className="row">{courseKTH && courseKTH.course && <h2>{courseKTH.course.courseCode}: {courseKTH.course.title}</h2>}</div>
-            <div className="row pb-3"><span style={{ fontSize: "14px" }} className="badge badge-pill badge-primary p-2">Overall rating: {courseDB && courseDB.ratings ? Math.round(((courseDB.ratings.reduce((accumulator, x) => accumulator + x, 0)) / courseDB.ratings.length) * 100) / 100 : "DNE"}</span></div>
-            <div className="row">
+            <div className="row pb-3 ml-2"><span style={{ fontSize: "14px" }} className="badge badge-pill badge-primary p-2">Overall rating: {courseDB && courseDB.ratings ? Math.round(((courseDB.ratings.reduce((accumulator, x) => accumulator + x, 0)) / courseDB.ratings.length) * 100) / 100 : "DNE"}</span></div>
+            <div className="row ml-2 mb-5">
               {courseKTH && courseKTH.course &&
                 <div className="course-info">
                   {courseKTH.course.addOn ? <TextToJSX text={courseKTH.course.addOn} /> : ""}
@@ -50,7 +50,7 @@ class Course extends React.Component {
             </div>
 
             <div id="accordion">
-              <h3 className="header-left">Comments</h3>
+              <h4 className="header-left">Comments</h4>
               <hr />
               <CommentGroup title="Overall comments" commentType="overallComments" comments={courseDB ? courseDB.overallComments : []} />
               <CommentGroup title="Course Contents" commentType="courseContents" comments={courseDB ? courseDB.courseContents : []} />
