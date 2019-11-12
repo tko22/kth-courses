@@ -8,7 +8,7 @@ import ListGroupItem from '../../components/ListGroupItem/ListGroupItem';
 class Listed extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { status: "LOADING", htmlList: null };
+    this.state = { status: "LOADING", htmlList: null, url: null };
   }
 
   async componentDidMount() {
@@ -18,26 +18,27 @@ class Listed extends React.Component {
       case "":
         const schools = await this.context.model.getSchools();
         let htmlSchools = schools.map(school => (
-          <ListGroupItem link={`/school/${school.name}`} name={school.name} />
+          <ListGroupItem link={`/school/${school.name}`} name={<>{school.name.split("/")[0]}<br />{school.name.split("/")[1]}</>} />
         ));
-        this.setState({ status: "LOADED", htmlList: htmlSchools });
+        this.setState({ status: "LOADED", htmlList: htmlSchools, url: "Master's Studies" });
         break;
 
       case "school":
-        const depts = await this.context.model.getDepatments(code);
+        const depts = await this.context.model.getDepartments(code);
+        console.log(depts)
         let htmlDepts = depts.map(dept => (
-          <Link to={`/department/${dept.code}/${dept.name}`}><button type="button" class="list-group-item list-group-item-action">{dept.code}<br />{dept.name.split("/")[1]}</button></Link>
+          <ListGroupItem link={`/department/${dept.code}/${dept.name}`} name={<>{dept.code}<br />{dept.name.split("/")[1]}</>} />
         ));
-        this.setState({ status: "LOADED", htmlList: htmlDepts });
+        this.setState({ status: "LOADED", htmlList: htmlDepts, url: `School ${code}` });
         break;
 
       case "department":
         const deptJSON = await this.context.model.getCourses(code);
         const courses = deptJSON.courses;
         let htmlCourses = courses.map(course => (
-          <Link to={`/course/${course.code}`}><button type="button" class="list-group-item list-group-item-action">{course.code}<br />{course.title}</button></Link>
+          <ListGroupItem link={`/course/${course.code}`} name={<>{course.code}<br />{course.title}</>} />
         ));
-        this.setState({ status: "LOADED", htmlList: htmlCourses });
+        this.setState({ status: "LOADED", htmlList: htmlCourses, url: `Department ${code}` });
         break;
 
       case "search":
@@ -55,8 +56,8 @@ class Listed extends React.Component {
 
   render() {
     return (
-      <div class="container-fluid">
-        <h1>Master's studies</h1>
+      <div class="container">
+        <h1>{this.state.url}</h1>
         <div class="row">
           <div class="list-group mx-auto">
             {this.state.htmlList}

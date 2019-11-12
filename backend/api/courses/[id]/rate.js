@@ -10,6 +10,11 @@ module.exports = cors(
     } = req;
     db.connectToDatabase();
 
+    // cors
+    if (req.method === "OPTIONS") {
+      return res.send("ok!");
+    }
+
     if (req.method !== "POST") {
       res.status(400).send("Request method not supported");
       return;
@@ -33,6 +38,9 @@ module.exports = cors(
       }
     );
     await course.save();
-    res.send(`Successfully added rating to course ${id}`);
+    res.send({
+      msg: `Successfully added rating to course ${id}`,
+      success: true
+    });
   })
 );

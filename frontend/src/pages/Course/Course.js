@@ -24,6 +24,7 @@ class Course extends React.Component {
 
   render() {
     const { courseKTH, courseDB, status } = this.state;
+    console.log(courseDB)
     return (
       <div class="container">
         <div className="row">
@@ -45,74 +46,8 @@ class Course extends React.Component {
 
         <div id="accordion">
           <CommentGroup title="Overall comments" commentType="overallComments" comments={courseDB ? courseDB.overallComments : null} />
-          {/* <div class="card">
-            <div class="card-header" id="headingOne">
-              <h5 class="mb-0">
-                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                  Overall comments
-                </button>
-              </h5>
-            </div>
-
-            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="card-body">
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="Input" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onCommentInputChange} value={this.state.commentInput} />
-                  <div class="input-group-append">
-                    <button class="btn btn-dark" type="button" onClick={this.context.model.comment()}>Comment</button>
-                  </div>
-                </div>
-                <ul class="list-group">
-                  <CommentList comments={courseDB ? courseDB.overallComments : null} />
-
-                </ul>
-              </div>
-            </div>
-          </div> */}
-          <div class="card">
-            <div class="card-header" id="headingTwo">
-              <h5 class="mb-0">
-                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  Course contents
-                </button>
-              </h5>
-            </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-              <div class="card-body">
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="Input" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onCommentInputChange} value={this.state.commentInput} />
-                  <div class="input-group-append">
-                    <button class="btn btn-dark" type="button" onClick={this.context.model.comment()}>Comment</button>
-                  </div>
-                </div>
-                <ul class="list-group">
-                  <CommentList comments={courseDB ? courseDB.courseContents : null} />
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header" id="headingThree">
-              <h5 class="mb-0">
-                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  Examination
-                </button>
-              </h5>
-            </div>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-              <div class="card-body">
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="Input" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onCommentInputChange} value={this.state.commentInput} />
-                  <div class="input-group-append">
-                    <button class="btn btn-dark" type="button" onClick={this.context.model.comment()}>Comment</button>
-                  </div>
-                </div>
-                <ul class="list-group">
-                  <CommentList comments={courseDB ? courseDB.examination : null} />
-                </ul>
-              </div>
-            </div>
-          </div>
+          <CommentGroup title="Course Contents" commentType="courseContents" comments={courseDB ? courseDB.courseContents : null} />
+          <CommentGroup title="Examination" commentType="examination" comments={courseDB ? courseDB.examination : null} />
         </div>
 
       </div >

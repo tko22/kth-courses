@@ -23,7 +23,7 @@ class CourseModel {
             });
     }
 
-    async getDepatments(schoolCode) {
+    async getDepartments(schoolCode) {
         return fetch(`${proxyurl}${BASE_URL_KTH}/departments?l=en`, headers)
             .then(this.processResponse)
             .then(response => { return response.filter(dept => { return dept.name.split("/")[0] === schoolCode }) })
@@ -72,7 +72,7 @@ class CourseModel {
     }
     getCourseDBDetails(courseCode) {
         // TODO: CHANGE
-        return fetch(`${BASE_URL_DB}/DH2642`) //${courseCode}`)
+        return fetch(`${BASE_URL_DB}/DH2642`, headers) //${courseCode}`)
             .then(this.processResponse)
             .catch(error => {
                 console.error("Error:", error);
@@ -81,9 +81,11 @@ class CourseModel {
     comment(commentType, text) {
         return fetch(`${BASE_URL_DB}/DH2642/comment`, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             },
             method: "POST",
+            mode: "cors",
             body: JSON.stringify({ type: commentType, comment: text })
         }) //${courseCode}`)
             .then(this.processResponse)
