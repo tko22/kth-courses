@@ -26,34 +26,34 @@ class CommentGroup extends React.Component {
     this.context.model.comment(this.props.commentType, this.state.commentInput)
     let newComments = this.state.comments
     newComments.push(this.state.commentInput)
-    this.setState((state) => ({
+    this.setState({
       commentInput: "",
       comments: newComments
-    }))
+    })
   }
   render() {
     const { title, commentType } = this.props
     const { comments } = this.state
 
     return (
-      <div class="card">
-        <div class="card-header" id="headingOne">
-          <h5 class="mb-0">
-            <button class="btn collapsed" data-toggle="collapse" data-target={`#collapse-${commentType}`} aria-expanded="true" aria-controls={`#collapse-${commentType}`}>
-              {title}
+      <div className="card">
+        <div className="card-header" id="headingOne">
+          <h5 className="mb-0">
+            <button className="btn collapsed" data-toggle="collapse" data-target={`#collapse-${commentType}`} aria-expanded="true" aria-controls={`#collapse-${commentType}`}>
+              {title} <span class="badge badge-secondary">{this.state.comments.length}</span>
             </button>
           </h5>
         </div>
 
-        <div id={`collapse-${commentType}`} class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-          <div class="card-body">
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Comment here" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onCommentInputChange} value={this.state.commentInput} />
-              <div class="input-group-append">
-                <button class="btn btn-dark" type="button" onClick={this.postComment}>Comment</button>
+        <div id={`collapse-${commentType}`} className="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div className="card-body">
+            <div className="input-group mb-3">
+              <input type="text" className="form-control" placeholder="Comment here" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onCommentInputChange} value={this.state.commentInput} />
+              <div className="input-group-append">
+                <button className="btn btn-dark" type="button" onClick={this.postComment}>Comment</button>
               </div>
             </div>
-            <ul class="list-group">
+            <ul className="list-group">
               <CommentList comments={comments ? comments : null} />
             </ul>
           </div>

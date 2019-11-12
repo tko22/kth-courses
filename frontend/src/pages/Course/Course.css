@@ -1,3 +1,18 @@
 .p{
     text-align: center;
 }
+
+.course-info {
+    color: #9a9a9a;
+    text-align: left;
+}
+
+.badge-rating {
+    font-size: 200%;
+}
+
+.course-id-header {
+    font-size: 25px;
+    font-weight: 700;
+    padding-right: 10px;
+}

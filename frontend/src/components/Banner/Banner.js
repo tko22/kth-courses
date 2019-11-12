@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from "react-router-dom";
+import { withRouter } from 'react-router-dom'
 import './Banner.css'
 import { ModelContext } from '../../ModelContext'
 import { Link } from "react-router-dom"
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 class Banner extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { searchInput: "Input" };
+    this.state = { searchInput: "" };
   }
 
   onSearchInputChange = e => {
@@ -15,19 +15,18 @@ class Banner extends React.Component {
   }
 
   search = () => {
-    let history = useHistory();
-    history.push(`/search/${this.state.searchInput}`);
+    this.props.history.push(`/search/${this.state.searchInput}`);
   }
   render() {
 
     return (
-      <div id="header" class="header d-flex align-items-center justify-content-center container-fluid">
-        <div class="row">
-          <h1 class="display-4 mx-auto"><Link to="/">COURSE RATE</Link></h1>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Input" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onSearchInputChange} value={this.state.searchInput} />
-            <div class="input-group-append">
-              <button class="btn btn-dark" type="button" onClick={this.search}>Search</button>
+      <div id="header" className="header d-flex align-items-center justify-content-center container-fluid">
+        <div className="row">
+          <h1 className="display-4 mx-auto"><Link className="header-banner" to="/">COURSE RATE</Link></h1>
+          <div className="input-group mb-3">
+            <input type="text" className="form-control" placeholder="Input" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onSearchInputChange} value={this.state.searchInput} />
+            <div className="input-group-append">
+              <button className="btn btn-dark" type="button" onClick={this.search}>Search</button>
             </div>
           </div>
         </div>
@@ -36,4 +35,4 @@ class Banner extends React.Component {
   }
 }
 Banner.contextType = ModelContext;
-export default Banner
+export default withRouter(Banner)

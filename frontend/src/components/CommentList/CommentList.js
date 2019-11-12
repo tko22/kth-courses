@@ -1,14 +1,16 @@
 import React from 'react'
+import "./CommentList.css"
 
 export default ({ comments }) => (
   <>
     {
-      comments ? comments.map(comment => (
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+      comments && comments.length > 0 ? comments.map(comment => (
+        <li key={comment} className="list-group-item d-flex justify-content-between align-items-center">
           {comment}
-          <span class="badge badge-primary badge-pill">14</span>
+          <span className="badge badge-primary badge-pill">14</span>
         </li>
-      )) : null
+      )) :
+        <p className="no-comment-text">No Comments</p>
     }
   </>
 )
