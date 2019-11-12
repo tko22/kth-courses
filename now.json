@@ -3,5 +3,13 @@
     "version": 2,
     "env": {
         "MONGO_URL": "@kth-courses-mongo-uri"
+    },
+    "static": {
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "public/index.html"
+            }
+        ]
     }
 }
