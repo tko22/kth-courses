@@ -1,7 +1,20 @@
 # kth-courses
-**Description**: “IMDB for courses”. This app enables students to rate and comment on entire courses as well as specific course content to facilitate the choice of elective courses.
+## Mid-project review
+**App link**: https://kth-courses.tko.now.sh
+**Backend**: https://kth-courses-backend.tko.now.sh
+**App link to course with comments and rating**: https://kth-courses.tko.now.sh/course/MJ2685
 
-This site is deployed at kth-courses.tko.now.sh;  Backend is deployed kth-courses-backend.tko.now.sh
+### Description 
+“IMDB for courses”. This app enables students to rate and comment on entire courses as well as specific course content to facilitate the choice of elective courses.
+
+### What has been done
+We are using the "KOPPS" api from KTH https://www.kth.se/api/kopps/v2 to access course, department and school information and have displayed that information within our app. We have also implemented search functionality using a search-call in the "KOPPS" api. Additionally we have implemented our own api which is used to access comments and ratings on a specific course and we have displayed that information within our app. We have also implemented commenting and rating functionality.
+
+### What we plan to do
+We plan to look into: 
+- Rating comments and displaying comments according to rating.
+- Using cookies to save course favourites in a profile page
+- Improving our UI, we would like feedback on how this could be done!
 
 ### File Structure
 Some of the higher level file structures are dependent on how we deploy our site - we use Zeit Now, a serverless deployment. 
