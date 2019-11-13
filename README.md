@@ -1,8 +1,8 @@
 # kth-courses
 ## Mid-project review
-**App link**: https://kth-courses.tko.now.sh
-**Backend**: https://kth-courses-backend.tko.now.sh
-**App link to course with comments and rating**: https://kth-courses.tko.now.sh/course/MJ2685
+**App link**: https://kth-courses.tko.now.sh  
+**Backend**: https://kth-courses-backend.tko.now.sh  
+**App link to course with comments and rating**: https://kth-courses.tko.now.sh/course/MJ2685  
 
 ### Description 
 “IMDB for courses”. This app enables students to rate and comment on entire courses as well as specific course content to facilitate the choice of elective courses.
