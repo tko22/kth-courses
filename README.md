@@ -13,7 +13,7 @@ We are using the "KOPPS" api from KTH https://www.kth.se/api/kopps/v2 to access 
 ### What we plan to do
 We plan to look into: 
 - Rating comments and displaying comments according to rating.
-- Rating parts of a course.
+- Rating parts of a course (examination, literature etc.).
 - Using cookies to save course favourites in a profile page.
 - Improving our UI, we would like feedback on how this could be done!
 
