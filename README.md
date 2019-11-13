@@ -16,6 +16,7 @@ We plan to look into:
 - Rating parts of a course (examination, literature etc.).
 - Using cookies to save course favourites in a profile page.
 - Improving our UI, we would like feedback on how this could be done!
+- If possible, speeding up fetches
 
 ### File Structure
 Some of the higher level file structures are dependent on how we deploy our site - we use Zeit Now, a serverless deployment. 
