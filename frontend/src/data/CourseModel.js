@@ -4,10 +4,6 @@ const headers = { method: 'GET', mode: 'cors', headers: { 'Access-Control-Allow-
 const BASE_URL_DB = "https://kth-courses-backend.tko.now.sh/api/courses"
 class CourseModel {
     constructor() {
-        /*this._schoolList = "";
-        this._school = "";
-        this._department = "";
-        this.course = ""; */
     }
     processResponse(response) {
         if (response.ok) {
@@ -62,7 +58,6 @@ class CourseModel {
                 console.error("Error:", error);
             });
     }
-
     getAllCoursesDB() {
         return fetch(`${BASE_URL_DB}`)
             .then(this.processResponse)
@@ -71,15 +66,14 @@ class CourseModel {
             });
     }
     getCourseDBDetails(courseCode) {
-        // TODO: CHANGE
-        return fetch(`${BASE_URL_DB}/DH2642`, headers) //${courseCode}`)
+        return fetch(`${BASE_URL_DB}/${courseCode}`, headers)
             .then(this.processResponse)
             .catch(error => {
                 console.error("Error:", error);
             });
     }
-    comment(commentType, text) {
-        return fetch(`${BASE_URL_DB}/DH2642/comment`, {
+    comment(courseCode, commentType, text) {
+        return fetch(`${BASE_URL_DB}/${courseCode}/comment`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
@@ -93,27 +87,21 @@ class CourseModel {
                 console.error("Error:", error);
             });
     }
-    /* setCourse(courseCode) {
-        this.course = courseCode;
-    } */
-    /* getCookies() {
-
+    rate(courseCode, userRating) {
+        return fetch(`${BASE_URL_DB}courses/${courseCode}/rate`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            method: "POST",
+            mode: "cors",
+            body: JSON.stringify({ rating: userRating })
+        })
+        .then(this.processResponse)
+        .catch(error => {
+            console.error("Error:", error);
+        });
     }
-    getSearchInput() {
-
-    }
-    setSearchInput() {
-
-    } */
-    /* setDepartment(deptCode) {
-        this._department = deptCode;
-    } */
-    /*setSchools(schoolList){
-        this._schoolList = schoolList;
-    } */
-    /* setSchool(schoolCode) {
-        this._school = schoolCode;
-    } */
 }
 const modelInstance = new CourseModel();
 export default modelInstance;
