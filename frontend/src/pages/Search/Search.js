@@ -25,7 +25,7 @@ class Search extends React.Component {
   render() {
     const { courses } = this.state
     if (!courses) {
-      return <p>"Loading"</p>
+      return <p className="mt-3">Loading</p>
     }
 
     return (

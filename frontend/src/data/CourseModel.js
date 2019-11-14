@@ -2,6 +2,7 @@ const BASE_URL_KTH = "https://www.kth.se/api/kopps/v2";
 const proxyurl = "https://cors-anywhere.herokuapp.com/";
 const headers = { method: 'GET', mode: 'cors', headers: { 'Access-Control-Allow-Origin': '*' } };
 const BASE_URL_DB = "https://kth-courses-backend.tko.now.sh/api/courses"
+
 class CourseModel {
     constructor() {
     }
@@ -97,10 +98,10 @@ class CourseModel {
             mode: "cors",
             body: JSON.stringify({ rating: userRating })
         })
-        .then(this.processResponse)
-        .catch(error => {
-            console.error("Error:", error);
-        });
+            .then(this.processResponse)
+            .catch(error => {
+                console.error("Error:", error);
+            });
     }
 }
 const modelInstance = new CourseModel();

@@ -8,14 +8,14 @@
 “IMDB for courses”. This app enables students to rate and comment on entire courses as well as specific course content to facilitate the choice of elective courses.
 
 ### What has been done
-We are using the "KOPPS" api from KTH https://www.kth.se/api/kopps/v2 to access course, department and school information and have displayed that information within our app. We have also implemented search functionality using a search-call in the "KOPPS" api. Additionally we have implemented our own api which is used to access comments and ratings on a specific course and we have displayed that information within our app. We have also implemented commenting and rating functionality.
+We are using the "KOPPS" api from KTH https://www.kth.se/api/kopps/v2 to access course, department and school information and have displayed that information within our app. We have also implemented search functionality using a search-call in the "KOPPS" api. Additionally we have implemented our own rest api using Node.js which is used to access comments and ratings on a specific course and we have displayed that information within our app. The API uses MongoDB includes and Cors + error handling. We have also implemented commenting and rating functionality. Most of the basic UI and pages have been implemented (search, course page, department/school page).
 
 ### What we plan to do
 We plan to look into: 
 - Rating comments and displaying comments according to rating.
 - Rating parts of a course (examination, literature etc.).
 - Using cookies to save course favourites in a profile page.
-- Improving our UI, we would like feedback on how this could be done!
+- Improving our UI, we would like feedback on how this could be done! More focus on User Experience and presenting valuable information about courses (i.e. telling user a course is cancelled when browsing classes). 
 - If possible, speeding up fetches
 
 ### File Structure
