@@ -53,7 +53,7 @@ class Listed extends React.Component {
           <div className="list-group mx-auto">
             {this.state.htmlList}
           </div>
-          <p>{this.state.status === "LOADING" ? 'Fetching...' : ''}</p>
+          <p>{this.state.status === "LOADING" ? 'Loading...' : ''}</p>
         </div>
       </div>
     )
