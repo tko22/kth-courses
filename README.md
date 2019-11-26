@@ -42,6 +42,10 @@ Some of the higher level file structures are dependent on how we deploy our site
     - `index.js`
     - `ModelContext.js`: React Context object for the data to be used in components
 
+
+### Some Design Choices
+Because courses may get added and deleted from the KTH API, our backend api that stores data on each course must reflect the courses in the KTH API. A common way to do it is have a background cron job updating the diff between the KTH API and our own api. This would be overkill for this project, given the deployment options we have. Thus, we have decided to add all the current courses manually (via code) to our database and we check if the course exists before we add comments/ratings - if it doesn't exist, we would create it. An additional request adds minimal latency and thus doesn't have as much impact on user experience. 
+
 ## Getting Started
 To get backend running, you will need a .env file to set environment variables, one of which includes the MONGO_DB credentials
 

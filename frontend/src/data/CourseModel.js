@@ -73,7 +73,7 @@ class CourseModel {
                 console.error("Error:", error)
             })
     }
-    async comment(courseCode, commentType, text) {
+    async comment(courseCode, commentType, text, courseName) {
         await this.dbCreateCourseIfDNE(courseCode, courseName)
         return fetch(`${BASE_URL_DB}/${courseCode}/comment`, {
             headers: {

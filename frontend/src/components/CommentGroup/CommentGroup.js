@@ -23,7 +23,7 @@ class CommentGroup extends React.Component {
   }
 
   postComment = () => {
-    this.context.model.comment(this.props.courseCode, this.props.commentType, this.state.commentInput)
+    this.context.model.comment(this.props.courseCode, this.props.commentType, this.state.commentInput, this.props.courseName)
     let newComments = this.state.comments
     newComments.push(this.state.commentInput)
     this.setState({
