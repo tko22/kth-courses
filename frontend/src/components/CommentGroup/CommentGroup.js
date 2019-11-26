@@ -40,7 +40,7 @@ class CommentGroup extends React.Component {
         <div className="card-header" id="headingOne">
           <h5 className="mb-0">
             <button className="btn collapsed" data-toggle="collapse" data-target={`#collapse-${commentType}`} aria-expanded="true" aria-controls={`#collapse-${commentType}`}>
-              {title} <span class="badge badge-secondary">{this.state.comments.length}</span>
+              {title} <span className="badge badge-secondary">{this.state.comments.length}</span>
             </button>
           </h5>
         </div>

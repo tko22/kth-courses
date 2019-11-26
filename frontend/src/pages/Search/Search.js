@@ -6,26 +6,42 @@ class Search extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      courses: null
+      courses: null,
+      loading: true
     }
   }
-
   async componentDidMount() {
     const input = this.props.match.params.input;
     const results = await this.context.model.search(input);
     const { searchHits } = results
     this.setState({
-      courses: searchHits
+      courses: searchHits,
+      loading: false
     })
+  }
+
+  async componentDidUpdate(prevProps) {
+    const input = this.props.match.params.input;
+    if (input != null && prevProps.match.params.input !== input) {
+      this.setState({
+        loading: true
+      })
+      const results = await this.context.model.search(input);
+      const { searchHits } = results
+      this.setState({
+        courses: searchHits,
+        loading: false
+      })
+    }
   }
 
   courseClicked = code => {
     this.props.history.push(`/course/${code}`)
   }
   render() {
-    const { courses } = this.state
-    if (!courses) {
-      return <p className="mt-3">Loading</p>
+    const { courses, loading } = this.state
+    if (!courses || loading) {
+      return <p className="mt-3">Loading...</p>
     }
 
     return (
@@ -46,7 +62,7 @@ class Search extends React.Component {
                 <th>{item.course.courseCode}</th>
                 <th>{item.course.title}</th>
                 <th>{item.course.credits} {item.course.creditUnitAbbr}</th>
-                <th><span class={`badge ${item.course.educationalLevel === "RESEARCH" ? "badge-secondary" : (item.course.educationalLevel === "ADVANCED" ? "badge-warning" : "badge-primary")}`}>{item.course.educationalLevel}</span></th>
+                <th><span className={`badge ${item.course.educationalLevel === "RESEARCH" ? "badge-secondary" : (item.course.educationalLevel === "ADVANCED" ? "badge-warning" : "badge-primary")}`}>{item.course.educationalLevel}</span></th>
               </tr>
             ))}
           </tbody>

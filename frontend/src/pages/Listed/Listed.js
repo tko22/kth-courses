@@ -47,10 +47,10 @@ class Listed extends React.Component {
 
   render() {
     return (
-      <div class="container">
+      <div className="container">
         <h1>{this.state.url}</h1>
-        <div class="row">
-          <div class="list-group mx-auto">
+        <div className="row">
+          <div className="list-group mx-auto">
             {this.state.htmlList}
           </div>
           <p>{this.state.status === "LOADING" ? 'Fetching...' : ''}</p>
