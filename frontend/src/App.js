@@ -5,6 +5,7 @@ import Course from './pages/Course/Course';
 import Banner from './components/Banner/Banner';
 import Search from './pages/Search/Search';
 import modelInstance from "./data/CourseModel";
+import Profile from './pages/Profile/Profile'
 import { ModelContext } from "./ModelContext"
 import './App.css';
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/department/:code/:schoolCode/:name" component={Listed} />
           <Route path="/search/:input" component={Search} />
           <Route path="/course/:code" component={Course} />
+          <Route path="/profile" component={Profile} />
         </ModelContext.Provider>
       </header>
     </div>
