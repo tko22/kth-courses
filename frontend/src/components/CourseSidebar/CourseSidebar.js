@@ -21,7 +21,7 @@ class CourseSidebar extends React.Component {
         <hr />
         <div className="container">
           {
-            course.cancelled || course.deactivated ? <span className="badge badge-pill badge-danger">Course cancelled</span> : <span className="badge badge-pill badge-success">Course running</span>
+            course.cancelled || course.deactivated ? <span className="badge badge-pill badge-danger mb-2">Course cancelled</span> : <span className="badge badge-pill badge-success mb-2">Course running</span>
           }
           <p>{course.credits} {course.creditUnitLabel}</p>
           <p><b>Course state:</b> {course.state}</p>

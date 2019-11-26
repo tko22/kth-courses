@@ -70,10 +70,11 @@ class CourseModel {
         return fetch(`${BASE_URL_DB}/${courseCode}`, headers)
             .then(this.processResponse)
             .catch(error => {
-                console.error("Error:", error);
-            });
+                console.error("Error:", error)
+            })
     }
-    comment(courseCode, commentType, text) {
+    async comment(courseCode, commentType, text) {
+        await this.dbCreateCourseIfDNE(courseCode, courseName)
         return fetch(`${BASE_URL_DB}/${courseCode}/comment`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -88,8 +89,9 @@ class CourseModel {
                 console.error("Error:", error);
             });
     }
-    rate(courseCode, userRating) {
-        return fetch(`${BASE_URL_DB}courses/${courseCode}/rate`, {
+    async rate(courseCode, userRating, courseName) {
+        await this.dbCreateCourseIfDNE(courseCode, courseName)
+        return fetch(`${BASE_URL_DB}/${courseCode}/rate`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
@@ -102,6 +104,25 @@ class CourseModel {
             .catch(error => {
                 console.error("Error:", error);
             });
+    }
+    createDBCourse(courseCode, courseName) {
+        fetch(`${BASE_URL_DB}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            method: "POST",
+            mode: "cors",
+            body: JSON.stringify({ name: courseName, courseID: courseCode })
+        })
+    }
+    async dbCreateCourseIfDNE(courseCode, courseName) {
+        const courseResult = await this.getCourseDBDetails(courseCode)
+        if (courseResult === undefined || !courseResult) {
+            await this.createDBCourse(courseCode, courseName)
+            return true
+        }
+        return true
     }
 }
 const modelInstance = new CourseModel();

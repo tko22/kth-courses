@@ -41,7 +41,12 @@ class Search extends React.Component {
   render() {
     const { courses, loading } = this.state
     if (!courses || loading) {
-      return <p className="mt-3">Loading...</p>
+      return (
+        <div class="spinner-border mt-5" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      )
+
     }
 
     return (
