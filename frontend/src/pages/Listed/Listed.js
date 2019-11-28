@@ -11,6 +11,10 @@ class Listed extends React.Component {
     this.state = { status: "LOADING", htmlList: null, url: null };
   }
 
+  goBack = () => {
+    this.props.history.goBack();
+  }
+
   async componentDidMount() {
     let url = this.props.match.url.split("/")[1];
     let code = this.props.match.params.code;
@@ -48,8 +52,12 @@ class Listed extends React.Component {
   render() {
     return (
       <div className="container">
-        <h1>{this.state.url}</h1>
-        <div className="row">
+
+        <h1 className="mt-4">{this.state.url}</h1>
+        {this.props.match.url.split("/")[1] != "" && this.state.status !== "LOADING" ? <div className="row">
+          <button onClick={this.goBack} className="btn btn-primary float-left">Back</button>
+        </div> : null}
+        <div className="row mt-3">
           <div className="list-group mx-auto">
             {this.state.htmlList}
           </div>

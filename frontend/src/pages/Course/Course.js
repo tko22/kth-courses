@@ -13,6 +13,10 @@ class Course extends React.Component {
     this.state = { status: "LOADING", courseKTH: null, courseDB: null }
   }
 
+  goBack = () => {
+    this.props.history.goBack();
+  }
+
   async componentDidMount() {
     let code = this.props.match.params.code;
     const courseKTH = await this.context.model.getCourseKTH(code);
@@ -45,6 +49,7 @@ class Course extends React.Component {
         <div className="row">
           <div className="col-md-4">
             <CourseSidebar courseKTH={courseKTH} />
+            <button className="btn btn-primary float-left" onClick={this.goBack}>Back</button>
           </div>
           <div className="col-md-8">
             <div className="row">{courseKTH && courseKTH.course && <h2>{courseKTH.course.courseCode}: {courseKTH.course.title}</h2>}</div>
