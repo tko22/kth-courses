@@ -26,6 +26,12 @@ class CourseSidebar extends React.Component {
           <p>{course.credits} {course.creditUnitLabel}</p>
           <p><b>Course state:</b> {course.state}</p>
           <p><b>Department:</b> <Link to={`/department/${course.department.code}/${course.department.name}`}>{course.department.name}</Link></p>
+
+          <p><b>Main Subjects: </b> {courseKTH.mainSubjects.join(', ')}</p>
+          <p><b>Contact: </b> {course.infoContactName}</p>
+
+
+          <p style={{ fontSize: "12px" }}><a href={courseKTH.socialCoursePageUrl}>visit course site</a></p>
         </div>
       </div >
     )

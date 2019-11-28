@@ -43,7 +43,7 @@ class CommentGroup extends React.Component {
             <button className="btn collapsed" data-toggle="collapse" data-target={`#collapse-${commentType}`} aria-expanded="true" aria-controls={`#collapse-${commentType}`}>
               {title} <span className="badge badge-secondary">{this.state.comments.length}</span>
             </button>
-            {this.props.ratings != undefined && <span class="badge badge-primary float-right">Rating: {getAvgRating(this.props.ratings)} </span>}
+            {this.props.ratings != undefined && <span class="badge badge-info float-right">Rating: {getAvgRating(this.props.ratings)} </span>}
           </h5>
         </div>
 
