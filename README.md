@@ -118,3 +118,15 @@ The body just includes the rating. Note that the rating can be a string in json
 {
     "rating": "9"
 }
+
+
+#### POST /api/courses/[id]/ratesection
+Add a rating to a section of a course with id.
+
+The request body would have a `type`, which is a rating type for the different rateable sections, except for the overall course rating, which is done by the .../rate endpoint. This includes: `literatureRating`, `courseRating`, `examinationRating`, `recommendedPrerequisitesRating`. The rating field is the rating number. The Rating must be a number.
+```
+{
+    "type": "literatureRating",
+    "rating": 4
+}
+```

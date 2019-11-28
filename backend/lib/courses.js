@@ -8,7 +8,11 @@ const Courses = mongoose.Schema({
   examination: [{ type: String }],
   literature: [{ type: String }],
   recommendedPrerequisites: [{ type: String }],
-  ratings: [{ type: Number }]
+  ratings: [{ type: Number }],
+  courseRating: [{ type: Number }],
+  examinationRating: [{ type: Number }],
+  literatureRating: [{ type: Number }],
+  recommendedPrerequisitesRating: [{ type: Number }]
 });
 
 module.exports = mongoose.model("Courses", Courses);

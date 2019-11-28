@@ -5,6 +5,7 @@ import { ModelContext } from '../../ModelContext'
 import TextToJSX from '../../components/TextToJSX/TextToJSX'
 import CommentGroup from '../../components/CommentGroup/CommentGroup'
 import CourseSidebar from '../../components/CourseSidebar/CourseSidebar'
+import { getAvgRating } from '../../common/utilities'
 
 class Course extends React.Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class Course extends React.Component {
           <div className="col-md-8">
             <div className="row">{courseKTH && courseKTH.course && <h2>{courseKTH.course.courseCode}: {courseKTH.course.title}</h2>}</div>
             <div className="row pb-3 ml-2">
-              <div className="col"><span style={{ fontSize: "14px" }} className="badge badge-pill badge-primary p-2">Overall rating: {courseDB && courseDB.ratings ? Math.round(((courseDB.ratings.reduce((accumulator, x) => accumulator + x, 0)) / courseDB.ratings.length) * 100) / 100 : "DNE"}</span></div>
+              <div className="col"><span style={{ fontSize: "14px" }} className="badge badge-pill badge-primary p-2">Overall rating: {courseDB && courseDB.ratings ? getAvgRating(courseDB.ratings) : "DNE"}</span></div>
               <div className="col"></div>
               <div className="col">
                 <div class="dropdown">
@@ -79,8 +80,10 @@ class Course extends React.Component {
               <h4 className="header-left">Comments</h4>
               <hr />
               <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Overall comments" commentType="overallComments" comments={courseDB ? courseDB.overallComments : []} />
-              <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Course Contents" commentType="courseContents" comments={courseDB ? courseDB.courseContents : []} />
-              <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Examination" commentType="examination" comments={courseDB ? courseDB.examination : []} />
+              <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Course Contents" commentType="courseContents" comments={courseDB ? courseDB.courseContents : []} ratings={courseDB ? courseDB.courseRating : []} />
+              <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Examination" commentType="examination" comments={courseDB ? courseDB.examination : []} ratings={courseDB ? courseDB.examinationRating : []} />
+              <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Literature" commentType="literature" comments={courseDB ? courseDB.literature : []} ratings={courseDB ? courseDB.literatureRating : []} />
+              <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Recommended Prerequisites" commentType="recommendedPrerequisites" comments={courseDB ? courseDB.recommendedPrerequisites : []} ratings={courseDB ? courseDB.recommendedPrerequisitesRating : []} />
             </div>
           </div>
         </div>

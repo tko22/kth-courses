@@ -124,6 +124,26 @@ class CourseModel {
         }
         return true
     }
+
+    async rateSection(courseCode, ratingType, userRating, courseName) {
+        // ratingType can either be
+        // `literatureRating`, `courseRating`, `examinationRating`, `recommendedPrerequisitesRating`
+        // userRating must be a number
+        await this.dbCreateCourseIfDNE(courseCode, courseName)
+        return fetch(`${BASE_URL_DB}/${courseCode}/ratesection`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            method: "POST",
+            mode: "cors",
+            body: JSON.stringify({ rating: userRating, type: ratingType })
+        })
+            .then(this.processResponse)
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
 }
 const modelInstance = new CourseModel();
 export default modelInstance;
