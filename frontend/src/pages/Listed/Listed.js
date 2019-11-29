@@ -15,6 +15,10 @@ class Listed extends React.Component {
     this.props.history.goBack();
   }
 
+  courseClicked = code => {
+    this.props.history.push(`/course/${code}`)
+  }
+
   async componentDidMount() {
     let url = this.props.match.url.split("/")[1];
     let code = this.props.match.params.code;
@@ -38,9 +42,30 @@ class Listed extends React.Component {
       case "department":
         const deptJSON = await this.context.model.getCourses(code);
         const courses = deptJSON.courses;
-        let htmlCourses = courses.map(course => (
-          <ListGroupItem link={`/course/${course.code}`} name={<>{course.code}<br />{course.title}</>} />
-        ));
+        let htmlCourses = (
+          <div>
+            <table className="table table-sm table-hover text-left">
+              <tr className="text-secondary">
+                <th scope="col">Code</th>
+                <th scope="col">Title</th>
+                <th scope="col">Credits</th>
+                <th scope="col">Level</th>
+                <th scope="col">State</th>
+              </tr>
+              <tbody>
+                {courses.map(course => (
+                  <tr key={course.code} onClick={() => this.courseClicked(course.code)}>
+                    <th>{course.code}</th>
+                    <th>{course.title}</th>
+                    <th>{course.credits} {course.creditUnitAbbr}</th>
+                    <th>{course.level}</th>
+                    <th><span className={`badge ${course.state === "CANCELLED" ? "badge-danger" : (course.state === "ESTABLISHED" ? "badge-primary" : "badge-secondary")}`}>{course.state}</span></th>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
         this.setState({ status: "LOADED", htmlList: htmlCourses, url: `Department ${deptJSON.department}` });
         break;
 
@@ -50,13 +75,16 @@ class Listed extends React.Component {
   }
 
   render() {
+    const url = this.props.match.url.split("/")[1]
     return (
       <div className="container">
 
         <h1 className="mt-4">{this.state.url}</h1>
-        {this.props.match.url.split("/")[1] != "" && this.state.status !== "LOADING" ? <div className="row">
-          <button onClick={this.goBack} className="btn btn-primary float-left">Back</button>
-        </div> : null}
+        {url !== "" && this.state.status !== "LOADING" ?
+          <div className="row">
+            <button onClick={this.goBack} className="btn btn-primary float-left">Back</button>
+          </div>
+          : null}
         <div className="row mt-3">
           <div className="list-group mx-auto">
             {this.state.htmlList}
