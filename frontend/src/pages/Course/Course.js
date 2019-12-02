@@ -20,21 +20,42 @@ class Course extends React.Component {
   async componentDidMount() {
     let code = this.props.match.params.code;
     const courseKTH = await this.context.model.getCourseKTH(code);
+    if (courseKTH === undefined) {
+      this.setState({
+        status: "DNE"
+      })
+      return
+    }
     let courseDB = await this.context.model.getCourseDBDetails(code);
     this.setState({ status: "LOADED", courseKTH, courseDB });
+    if (courseDB === undefined) {
+      await this.context.model.createDBCourse(code, courseKTH.course.title)
+      courseDB = await this.context.model.getCourseDBDetails(code);
+      this.setState({ status: "LOADED", courseDB })
+    }
   }
 
   postRating = (userRating) => {
     let code = this.state.courseKTH.course.courseCode
     this.context.model.rate(code, userRating, this.state.courseKTH.course.title)
     let newCourseDB = this.state.courseDB
-    newCourseDB.ratings.push(userRating)
+    if (newCourseDB.ratings !== undefined) {
+      newCourseDB.ratings.push(userRating)
+    }
+    else {
+      newCourseDB.ratings = [userRating]
+    }
     this.setState({ courseDB: newCourseDB });
     window.alert("Rated Course!")
   }
 
   render() {
     const { courseKTH, courseDB, status } = this.state;
+    if (status === "DNE") {
+      return (
+        <p>Course Doesnt Exist</p>
+      )
+    }
     if (status === "LOADING" || !courseKTH) {
       return (
         <div class="spinner-border mt-5" role="status">
