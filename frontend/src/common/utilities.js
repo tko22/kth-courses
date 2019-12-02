@@ -4,7 +4,13 @@ const getAvgRating = (ratings) => {
   return isNaN(ret) ? "DNE" : ret
 }
 
+function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export {
-  getAvgRating
+  getAvgRating,
+  timeout
 }
+
+

@@ -5,7 +5,7 @@ import { ModelContext } from '../../ModelContext'
 import TextToJSX from '../../components/TextToJSX/TextToJSX'
 import CommentGroup from '../../components/CommentGroup/CommentGroup'
 import CourseSidebar from '../../components/CourseSidebar/CourseSidebar'
-import { getAvgRating } from '../../common/utilities'
+import { getAvgRating, timeout } from '../../common/utilities'
 
 class Course extends React.Component {
   constructor(props) {
@@ -30,15 +30,19 @@ class Course extends React.Component {
     this.setState({ status: "LOADED", courseKTH, courseDB });
     if (courseDB === undefined) {
       await this.context.model.createDBCourse(code, courseKTH.course.title)
+      await timeout(1000)
       courseDB = await this.context.model.getCourseDBDetails(code);
       this.setState({ status: "LOADED", courseDB })
     }
   }
 
-  postRating = (userRating) => {
+  postRating = async (userRating) => {
     let code = this.state.courseKTH.course.courseCode
     this.context.model.rate(code, userRating, this.state.courseKTH.course.title)
     let newCourseDB = this.state.courseDB
+    if (newCourseDB === undefined) {
+      newCourseDB = await this.context.model.getCourseDBDetails(code);
+    }
     if (newCourseDB.ratings !== undefined) {
       newCourseDB.ratings.push(userRating)
     }
@@ -98,7 +102,7 @@ class Course extends React.Component {
                   {courseKTH.course.addOn ? <TextToJSX text={courseKTH.course.addOn} /> : ""}
                   {courseKTH.course.applicationInfo ? <TextToJSX text={courseKTH.course.applicationInfo.substring(3, courseKTH.course.applicationInfo.length - 4)} /> : ""}
                   {courseKTH.course.recruitmentText ? <TextToJSX text={courseKTH.course.recruitmentText.substring(3, courseKTH.course.recruitmentText.length - 4)} /> : ""}
-                  {courseKTH.course.courseDeposition ? <><h4>Course Desposition</h4> <TextToJSX text={courseKTH.course.courseDeposition.substring(4, courseKTH.course.recruitmentText.length - 4)} /></> : ""}
+                  {courseKTH.course.courseDeposition ? <><h4>Course Desposition</h4> <TextToJSX text={courseKTH.course.courseDeposition.substring(4, courseKTH.course.courseDeposition.length - 4)} /></> : ""}
                 </div>
               }
             </div>
