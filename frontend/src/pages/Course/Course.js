@@ -12,7 +12,7 @@ import { getAvgRating, timeout } from '../../common/utilities'
 class Course extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { status: "LOADING", courseKTH: null, courseDB: null, ratings: [(5,"Awesome - 5 stars"), (4.5,"Pretty good - 4.5 stars"), (4, "Pretty good - 4 stars"), (3.5, "Meh - 3.5 stars"), (3, "Meh - 3 stars"), (2.5, "Kinda bad - 2.5 stars"), (2, "Kinda bad - 2 stars"), (1.5, "Meh - 1.5 stars"), (1, "Sucks big time - 1 star"), (0.5, "Sucks big time - 0.5 stars")]}
+    this.state = { status: "LOADING", courseKTH: null, courseDB: null, ratings: [[10, "Awesome - 10 stars"], [9, "Really good - 9 stars"], [8, "Good - 8 stars"], [7, "7 stars"], [6, "6 stars"], [5, "Average - 5 stars"], [4, "4 stars"], [3, "3 stars"], [2, "Meh - 2 stars"], [1, "Bad - 1 star"]]}
   }
 
   goBack = () => {
@@ -98,9 +98,9 @@ class Course extends React.Component {
               <div className="col">
                 <fieldset class="rating">
                   {this.state.ratings.map(rating=>(
-                    <>
-                      <input type="radio" id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className = "full" for={`star${rating[0]}`} title={rating[1]}></label>
-                    </>
+                      <>
+                        <input type="radio" id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className = "full" for={`star${rating[0]}`} title={rating[1]}></label>
+                      </>
                   ))}
                 </fieldset>
               </div>
