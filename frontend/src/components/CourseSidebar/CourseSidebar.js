@@ -13,7 +13,7 @@ class CourseSidebar extends React.Component {
     if (!courseKTH) {
       return <div className="filter-box"><p>"Loading"</p></div>
     }
-
+    throw new Error('CourseSidebar.js line 16');
     const { course } = courseKTH
     return (
       <div className="filter-box" >

@@ -8,6 +8,7 @@ import CourseSidebar from '../../components/CourseSidebar/CourseSidebar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { getAvgRating, timeout } from '../../common/utilities'
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
 
 class Course extends React.Component {
   constructor(props) {
@@ -89,19 +90,23 @@ class Course extends React.Component {
 
         <div className="row">
           <div className="col-md-4">
-            <CourseSidebar courseKTH={courseKTH} />
+            <ErrorBoundary><CourseSidebar courseKTH={courseKTH} /></ErrorBoundary>
             <button className="btn btn-outline-info float-left" onClick={this.goBack}>Back</button>
           </div>
           <div className="col-md-8">
-            <div className="row">{courseKTH && courseKTH.course && <h2>{courseKTH.course.courseCode}: {courseKTH.course.title}</h2>}</div>
+            <ErrorBoundary><div className="row">{courseKTH && courseKTH.course && <h2>{courseKTH.course.courseCode}: {courseKTH.course.title}</h2>}</div></ErrorBoundary>
             <div className="row ml-2 mb-3"></div>
             <div className="row pb-3 ml-2">
-              <div className="col"><span style={{ fontSize: "14px" }} className="badge badge-pill badge-info p-2">Overall rating: {courseDB && courseDB.ratings ? getAvgRating(courseDB.ratings) : "DNE"}</span></div>
+              <ErrorBoundary>
+                <div className="col"><span style={{ fontSize: "14px" }} className="badge badge-pill badge-info p-2">Overall rating: {courseDB && courseDB.ratings ? getAvgRating(courseDB.ratings) : "DNE"}</span></div>
+              </ErrorBoundary>
               <div className="col">
                 <fieldset class="rating">
-                  {this.state.ratingTypes.map(rating=>{
-                      return <><input type="radio" id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className ={rating[2]} for={`star${rating[0]}`} title={rating[1]}></label></>;  
-                  })}
+                  <ErrorBoundary>
+                    {this.state.ratingTypes.map(rating=>{
+                        return <><input type="radio" id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className ={rating[2]} for={`star${rating[0]}`} title={rating[1]}></label></>;  
+                    })}
+                  </ErrorBoundary>
                 </fieldset>
               </div>
             </div>
@@ -110,24 +115,28 @@ class Course extends React.Component {
             </div>
             <div className="row ml-2 mb-3"></div>
             <div className="row ml-2 mb-5">
-              {courseKTH && courseKTH.course &&
-                <div className="course-info">
-                  {courseKTH.course.addOn ? <TextToJSX text={courseKTH.course.addOn} /> : ""}
-                  {courseKTH.course.applicationInfo ? <TextToJSX text={courseKTH.course.applicationInfo.substring(3, courseKTH.course.applicationInfo.length - 4)} /> : ""}
-                  {courseKTH.course.recruitmentText ? <TextToJSX text={courseKTH.course.recruitmentText.substring(3, courseKTH.course.recruitmentText.length - 4)} /> : ""}
-                  {courseKTH.course.courseDeposition ? <><h4>Course Desposition</h4> <TextToJSX text={courseKTH.course.courseDeposition.substring(4, courseKTH.course.courseDeposition.length - 4)} /></> : ""}
-                </div>
-              }
+              <ErrorBoundary>
+                {courseKTH && courseKTH.course &&
+                  <div className="course-info">
+                    {courseKTH.course.addOn ? <TextToJSX text={courseKTH.course.addOn} /> : ""}
+                    {courseKTH.course.applicationInfo ? <TextToJSX text={courseKTH.course.applicationInfo.substring(3, courseKTH.course.applicationInfo.length - 4)} /> : ""}
+                    {courseKTH.course.recruitmentText ? <TextToJSX text={courseKTH.course.recruitmentText.substring(3, courseKTH.course.recruitmentText.length - 4)} /> : ""}
+                    {courseKTH.course.courseDeposition ? <><h4>Course Desposition</h4> <TextToJSX text={courseKTH.course.courseDeposition.substring(4, courseKTH.course.courseDeposition.length - 4)} /></> : ""}
+                  </div>
+                }
+              </ErrorBoundary>
             </div>
 
             <div id="accordion">
               <h4 className="header-left">Comments</h4>
               <hr />
-              <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Overall comments" commentType="overallComments" comments={courseDB ? courseDB.overallComments : []} />
-              <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Course Contents" commentType="courseContents" comments={courseDB ? courseDB.courseContents : []} ratings={courseDB ? courseDB.courseRating : []} ratingType="courseRating" />
-              <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Examination" commentType="examination" comments={courseDB ? courseDB.examination : []} ratings={courseDB ? courseDB.examinationRating : []} ratingType="examinationRating" />
-              <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Literature" commentType="literature" comments={courseDB ? courseDB.literature : []} ratings={courseDB ? courseDB.literatureRating : []} ratingType="literatureRating" />
-              <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Recommended Prerequisites" commentType="recommendedPrerequisites" comments={courseDB ? courseDB.recommendedPrerequisites : []} ratings={courseDB ? courseDB.recommendedPrerequisitesRating : []} ratingType="recommendedPrerequisitesRating" />
+              <ErrorBoundary>
+                <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Overall comments" commentType="overallComments" comments={courseDB ? courseDB.overallComments : []} />
+                <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Course Contents" commentType="courseContents" comments={courseDB ? courseDB.courseContents : []} ratings={courseDB ? courseDB.courseRating : []} ratingType="courseRating" />
+                <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Examination" commentType="examination" comments={courseDB ? courseDB.examination : []} ratings={courseDB ? courseDB.examinationRating : []} ratingType="examinationRating" />
+                <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Literature" commentType="literature" comments={courseDB ? courseDB.literature : []} ratings={courseDB ? courseDB.literatureRating : []} ratingType="literatureRating" />
+                <CommentGroup courseName={courseKTH.course.title} courseCode={courseKTH.course.courseCode} title="Recommended Prerequisites" commentType="recommendedPrerequisites" comments={courseDB ? courseDB.recommendedPrerequisites : []} ratings={courseDB ? courseDB.recommendedPrerequisitesRating : []} ratingType="recommendedPrerequisitesRating" />
+              </ErrorBoundary>
             </div>
           </div>
         </div>

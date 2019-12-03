@@ -119,7 +119,9 @@ class CourseModel {
             method: "POST",
             mode: "cors",
             body: JSON.stringify({ name: courseName, courseID: courseCode })
-        })
+        }).catch(error => {
+            console.error("Error:", error);
+        });
     }
     async dbCreateCourseIfDNE(courseCode, courseName) {
         const courseResult = await this.getCourseDBDetails(courseCode)
