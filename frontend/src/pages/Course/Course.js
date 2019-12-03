@@ -12,7 +12,7 @@ import { getAvgRating, timeout } from '../../common/utilities'
 class Course extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { status: "LOADING", courseKTH: null, courseDB: null, ratings: [[10, "Awesome - 10 stars"], [9, "Really good - 9 stars"], [8, "Good - 8 stars"], [7, "7 stars"], [6, "6 stars"], [5, "Average - 5 stars"], [4, "4 stars"], [3, "3 stars"], [2, "Meh - 2 stars"], [1, "Bad - 1 star"]]}
+    this.state = { status: "LOADING", courseKTH: null, courseDB: null, ratings: [[5, "Awesome - 5 stars", "full"], [4.5, "Really good - 4.5 stars", "half"], [4, "Good - 4 stars", "full"], [3.5, "3.5 stars", "half"], [3, "3 stars", "full"], [2.5, "Average - 2.5 stars", "half"], [2, "2 stars", "full"], [1.5, "1.5 stars", "half"], [1, "Meh - 1 stars", "full"], [0.5, "Bad - 0.5 star", "half"]]}
   }
 
   goBack = () => {
@@ -97,11 +97,13 @@ class Course extends React.Component {
               <div className="col"><span style={{ fontSize: "14px" }} className="badge badge-pill badge-info p-2">Overall rating: {courseDB && courseDB.ratings ? getAvgRating(courseDB.ratings) : "DNE"}</span></div>
               <div className="col">
                 <fieldset class="rating">
-                  {this.state.ratings.map(rating=>(
-                      <>
-                        <input type="radio" id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className = "full" for={`star${rating[0]}`} title={rating[1]}></label>
-                      </>
-                  ))}
+                  {this.state.ratings.map(rating=>{
+                    let type = "half";
+                    if(rating[2]=="full") {
+                      type="full"
+                    }
+                      return <><input type="radio" id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className ={type} for={`star${rating[0]}`} title={rating[1]}></label></>;  
+                  })}
                 </fieldset>
               </div>
             </div>
