@@ -1,9 +1,24 @@
 import React from 'react'
+import { ModelContext } from '../../ModelContext'
+import ListGroupItem from '../../components/ListGroupItem/ListGroupItem';
 
 
 class ProfilePage extends React.Component {
   constructor(props) {
     super(props)
+    this.state = { status: "LOADING", htmlFavourites: "" }
+  }
+
+  async componentDidMount() {
+    let favCourses = this.context.model.getCookie("favourites").split(","); //Is a string when one fav course
+    favCourses = await (favCourses.map(courseID=>(
+       this.context.model.getCourseKTH(courseID)
+    )))
+    let htmlFavourites = (favCourses.map(course => (
+        <ListGroupItem link={`/course/${course.id}`} name={course.name} />
+    )));
+    this.setState({ status: "LOADED", htmlFavourites: htmlFavourites });
+    
   }
 
   render() {
@@ -25,5 +40,5 @@ class ProfilePage extends React.Component {
   }
 
 }
-
+ProfilePage.contextType = ModelContext;
 export default ProfilePage

@@ -6,6 +6,8 @@ import TextToJSX from '../../components/TextToJSX/TextToJSX'
 import CommentGroup from '../../components/CommentGroup/CommentGroup'
 import CourseSidebar from '../../components/CourseSidebar/CourseSidebar'
 import { getAvgRating } from '../../common/utilities'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 class Course extends React.Component {
   constructor(props) {
@@ -49,6 +51,19 @@ class Course extends React.Component {
     window.alert("Rated Course!")
   }
 
+  setFavourite(courseCode) {
+    let cookieStr = this.context.model.getCookie("favourites");
+    if (cookieStr!="") {
+      cookieStr = cookieStr + "," + courseCode
+    }else{
+      cookieStr = courseCode
+    }
+    var expiration_date = new Date();
+    expiration_date.setFullYear(expiration_date.getFullYear() + 1);
+    document.cookie ="favourites="+cookieStr+";expires="+expiration_date.toUTCString()+";path=/profile"; 
+    window.alert("Favourited Course!") 
+  }
+
   render() {
     const { courseKTH, courseDB, status } = this.state;
     if (status === "DNE") {
@@ -70,13 +85,12 @@ class Course extends React.Component {
         <div className="row">
           <div className="col-md-4">
             <CourseSidebar courseKTH={courseKTH} />
-            <button className="btn btn-primary float-left" onClick={this.goBack}>Back</button>
+            <button className="btn btn-outline-info float-left" onClick={this.goBack}>Back</button>
           </div>
           <div className="col-md-8">
             <div className="row">{courseKTH && courseKTH.course && <h2>{courseKTH.course.courseCode}: {courseKTH.course.title}</h2>}</div>
             <div className="row pb-3 ml-2">
               <div className="col"><span style={{ fontSize: "14px" }} className="badge badge-pill badge-info p-2">Overall rating: {courseDB && courseDB.ratings ? getAvgRating(courseDB.ratings) : "DNE"}</span></div>
-              <div className="col"></div>
               <div className="col">
                 <div class="dropdown">
                   <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,6 +105,7 @@ class Course extends React.Component {
                   </div>
                 </div>
               </div>
+              <div className="col"><button className="btn btn-info" type="button" id="favButton" onClick={() => {this.setFavourite(courseKTH.course.courseCode)}}>Favourite <FontAwesomeIcon icon={faStar} /></button></div>
             </div>
             <div className="row ml-2 mb-5">
               {courseKTH && courseKTH.course &&

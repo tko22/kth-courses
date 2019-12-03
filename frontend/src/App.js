@@ -21,7 +21,7 @@ function App() {
           <Route path="/department/:code/:schoolCode/:name" component={Listed} />
           <Route path="/search/:input" component={Search} />
           <Route path="/course/:code" component={Course} />
-          <Route path="/profile" component={Profile} />
+          <Route path="/profile" component={Listed} />
         </ModelContext.Provider>
       </header>
     </div>

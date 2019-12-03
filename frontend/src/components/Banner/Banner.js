@@ -23,7 +23,7 @@ class Banner extends React.Component {
       <div id="header" className="header d-flex align-items-center justify-content-center container-fluid">
         <div className="row">
           <h1 className="display-4 mx-auto"><Link className="header-banner" to="/">KTH COURSE RATE</Link></h1>
-          <Link className="text-white text-right font-weight-bold" to="/profile">Profile</Link>
+          <Link to="/profile"><button type="button" className="btn btn-light">Profile</button></Link>
           <div className="input-group mb-3">
             <input type="text" className="form-control" placeholder="Search Courses with Keywords" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onSearchInputChange} value={this.state.searchInput} />
             <div className="input-group-append">

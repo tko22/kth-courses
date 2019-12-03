@@ -19,6 +19,37 @@ class Listed extends React.Component {
     this.props.history.push(`/course/${code}`)
   }
 
+  listCourses(courses) {
+    let htmlCourses = (
+      <div>
+        <table className="table table-sm table-hover text-left">
+          <tr className="text-secondary">
+            <th scope="col">Code</th>
+            <th scope="col">Title</th>
+            <th scope="col">Credits</th>
+            <th scope="col">Level</th>
+            <th scope="col">State</th>
+          </tr>
+          <tbody>
+            {courses.map(course => (
+              <tr key={course.code} onClick={() => this.courseClicked(course.code)}>
+                <th>{course.code}</th>
+                <th>{course.title}</th>
+                <th>{course.credits} {course.creditUnitAbbr}</th>
+                <th>{course.level}</th>
+                <th><span className={`badge ${course.state === "CANCELLED" ? "badge-danger" : (course.state === "ESTABLISHED" ? "badge-primary" : "badge-secondary")}`}>{course.state}</span></th>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+    return htmlCourses
+  }
+  async getCourseAsync(courseID) {
+    return await this.context.model.getCourseKTH(courseID)
+  }
+
   async componentDidMount() {
     let url = this.props.match.url.split("/")[1];
     let code = this.props.match.params.code;
@@ -42,32 +73,30 @@ class Listed extends React.Component {
       case "department":
         const deptJSON = await this.context.model.getCourses(code);
         const courses = deptJSON.courses;
-        let htmlCourses = (
-          <div>
-            <table className="table table-sm table-hover text-left">
-              <tr className="text-secondary">
-                <th scope="col">Code</th>
-                <th scope="col">Title</th>
-                <th scope="col">Credits</th>
-                <th scope="col">Level</th>
-                <th scope="col">State</th>
-              </tr>
-              <tbody>
-                {courses.map(course => (
-                  <tr key={course.code} onClick={() => this.courseClicked(course.code)}>
-                    <th>{course.code}</th>
-                    <th>{course.title}</th>
-                    <th>{course.credits} {course.creditUnitAbbr}</th>
-                    <th>{course.level}</th>
-                    <th><span className={`badge ${course.state === "CANCELLED" ? "badge-danger" : (course.state === "ESTABLISHED" ? "badge-primary" : "badge-secondary")}`}>{course.state}</span></th>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        );
+        let htmlCourses = this.listCourses(courses);
         this.setState({ status: "LOADED", htmlList: htmlCourses, url: `Department ${deptJSON.department}` });
         break;
+
+      case "profile":
+        let favCourses = this.context.model.getCookie("favourites").split(",");
+        if (favCourses[0]!=="") {
+          let promises = favCourses.map(async courseID => {
+            const course = await this.context.model.getCourseKTH(courseID);
+            course.code = course.course.courseCode;
+            course.title = course.course.title;
+            course.credits = course.course.credits;
+            course.level = course.course.educationalLevelCode;
+            course.state = course.course.state;
+            return course;
+            });
+            Promise.all(promises).then( favCourses =>{
+              let htmlFavourites = this.listCourses(favCourses);
+              this.setState({ status: "LOADED", htmlList: htmlFavourites, url: "Profile page"});
+            });
+          }else{
+            this.setState({ status: "LOADED", htmlList: "You have no favourites yet", url: "Profile page"});
+          }
+          break;
 
       default:
         break;
@@ -82,7 +111,7 @@ class Listed extends React.Component {
         <h1 className="mt-4">{this.state.url}</h1>
         {url !== "" && this.state.status !== "LOADING" ?
           <div className="row">
-            <button onClick={this.goBack} className="btn btn-primary float-left">Back</button>
+            <button onClick={this.goBack} className="btn btn-outline-info float-left">Back</button>
           </div>
           : null}
         <div className="row mt-3">
