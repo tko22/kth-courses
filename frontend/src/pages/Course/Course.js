@@ -53,21 +53,45 @@ class Course extends React.Component {
     else {
       newCourseDB.ratings = [userRating]
     }
+    let cookieStr = this.context.model.getCookie("favourites");
+    if(cookieStr.includes(code)){
+      var expiration_date = new Date();
+      expiration_date.setFullYear(expiration_date.getFullYear() + 1);
+      document.cookie=`${code}=${userRating};expires=${expiration_date.toUTCString()};path="/course"`;
+    }
     this.setState({ courseDB: newCourseDB });
     window.alert(`Rated Course ${userRating}/5!`)
   }
 
   setFavourite(courseCode) {
+    let code = this.state.courseKTH.course.courseCode
     let cookieStr = this.context.model.getCookie("favourites");
-    if (cookieStr!="") {
-      cookieStr = cookieStr + "," + courseCode
+    if(!cookieStr.includes(code)){
+      if (cookieStr!="") {
+        cookieStr = cookieStr + "," + courseCode
+      }else{
+        cookieStr = courseCode
+      }
+      var expiration_date = new Date();
+      expiration_date.setFullYear(expiration_date.getFullYear() + 1);
+      document.cookie =`favourites=${cookieStr};expires=${expiration_date.toUTCString()};path="/profile"`
+      window.alert("Favourited Course!")
     }else{
-      cookieStr = courseCode
+      window.alert("Already favourited Course!")
+    } 
+  }
+
+  checkIfChecked(rating){
+    let code = this.state.courseKTH.course.courseCode;
+    let cookieStr = this.context.model.getCookie("favourites");
+    if(cookieStr.includes(code)){
+      let cookieCourseStr = this.context.model.getCookie(code);
+      let cookieCourseRating = parseFloat(cookieCourseStr);
+      if(rating<=cookieCourseRating){
+        return true;
+      }
     }
-    var expiration_date = new Date();
-    expiration_date.setFullYear(expiration_date.getFullYear() + 1);
-    document.cookie ="favourites="+cookieStr+";expires="+expiration_date.toUTCString()+";path=/profile"; 
-    window.alert("Favourited Course!") 
+    return false;
   }
 
   render() {
@@ -105,7 +129,7 @@ class Course extends React.Component {
                 <fieldset class="rating">
                   <ErrorBoundary>
                     {this.state.ratingTypes.map(rating=>{
-                        return <><input type="radio" id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className ={rating[2]} for={`star${rating[0]}`} title={rating[1]}></label></>;  
+                        return <><input type="radio" checked={this.checkIfChecked(rating[0])} id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className ={rating[2]} for={`star${rating[0]}`} title={rating[1]}></label></>;  
                     })}
                   </ErrorBoundary>
                 </fieldset>
