@@ -98,11 +98,7 @@ class Course extends React.Component {
               <div className="col">
                 <fieldset class="rating">
                   {this.state.ratings.map(rating=>{
-                    let type = "half";
-                    if(rating[2]=="full") {
-                      type="full"
-                    }
-                      return <><input type="radio" id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className ={type} for={`star${rating[0]}`} title={rating[1]}></label></>;  
+                      return <><input type="radio" id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className ={rating[2]} for={`star${rating[0]}`} title={rating[1]}></label></>;  
                   })}
                 </fieldset>
               </div>
