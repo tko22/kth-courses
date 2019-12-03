@@ -12,7 +12,7 @@ import { getAvgRating, timeout } from '../../common/utilities'
 class Course extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { status: "LOADING", courseKTH: null, courseDB: null }
+    this.state = { status: "LOADING", courseKTH: null, courseDB: null, ratings: [(5,"Awesome - 5 stars"), (4.5,"Pretty good - 4.5 stars"), (4, "Pretty good - 4 stars"), (3.5, "Meh - 3.5 stars"), (3, "Meh - 3 stars"), (2.5, "Kinda bad - 2.5 stars"), (2, "Kinda bad - 2 stars"), (1.5, "Meh - 1.5 stars"), (1, "Sucks big time - 1 star"), (0.5, "Sucks big time - 0.5 stars")]}
   }
 
   goBack = () => {
@@ -96,20 +96,17 @@ class Course extends React.Component {
             <div className="row pb-3 ml-2">
               <div className="col"><span style={{ fontSize: "14px" }} className="badge badge-pill badge-info p-2">Overall rating: {courseDB && courseDB.ratings ? getAvgRating(courseDB.ratings) : "DNE"}</span></div>
               <div className="col">
-                <div class="dropdown">
-                  <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Rate
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {
-                      [...Array(10).keys()].map(num => (
-                        <a key={num} className="dropdown-item btn" href="#" onClick={() => { this.postRating(num) }}>{num}</a>
-                      ))
-                    }
-                  </div>
-                </div>
+                <fieldset class="rating">
+                  {this.state.ratings.map(rating=>(
+                    <>
+                      <input type="radio" id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className = "full" for={`star${rating[0]}`} title={rating[1]}></label>
+                    </>
+                  ))}
+                </fieldset>
               </div>
-              <div className="col"><button className="btn btn-info" type="button" id="favButton" onClick={() => {this.setFavourite(courseKTH.course.courseCode)}}>Favourite <FontAwesomeIcon icon={faStar} /></button></div>
+            </div>
+            <div className="row">
+              <div className="col"><button className="btn btn-info" type="button" id="favButton" onClick={() => {this.setFavourite(courseKTH.course.courseCode)}}>Favourite</button></div>
             </div>
             <div className="row ml-2 mb-5">
               {courseKTH && courseKTH.course &&

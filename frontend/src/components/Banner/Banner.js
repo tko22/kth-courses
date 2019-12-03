@@ -14,6 +14,12 @@ class Banner extends React.Component {
     this.setState({ searchInput: e.target.value });
   }
 
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+        this.search(); 
+    }
+  }
+
   search = () => {
     this.props.history.push(`/search/${this.state.searchInput}`);
   }
@@ -33,9 +39,9 @@ class Banner extends React.Component {
         </div>
           <div id="header" className="header d-flex align-items-center justify-content-center container-fluid">
             <div className="row">
-              <h1 className="display-4 mx-auto"><Link className="header-banner" to="/">KTH COURSE RATE</Link></h1>            
+              <h1 className="display-4 mx-auto">KTH COURSE RATE</h1>            
               <div className="input-group mb-3">
-                <input type="text" className="form-control" placeholder="Search Courses with Keywords" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onSearchInputChange} value={this.state.searchInput} />
+                <input type="text" className="form-control" placeholder="Search Courses with Keywords" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onSearchInputChange} value={this.state.searchInput} onKeyUp={this.handleKeyPress.bind(this)}/>
                 <div className="input-group-append">
                   <button className="btn btn-dark" type="button" onClick={this.search}>Search</button>
                 </div>
