@@ -9,11 +9,15 @@ class CommentGroup extends React.Component {
     this.state = {
       commentInput: "",
       comments: this.props.comments ? this.props.comments : [],
-      ratings: this.props.ratings ? this.props.ratings : []
+      ratings: this.props.ratings ? this.props.ratings : [],
+      ratingTypes: []
     }
   }
   onCommentInputChange = e => {
     this.setState({ commentInput: e.target.value });
+  }
+  async componentDidMount() {
+    this.setState({ ratingTypes: this.context.model.getRatingTypes() });
   }
 
   componentDidUpdate(prevProps) {
@@ -29,12 +33,12 @@ class CommentGroup extends React.Component {
     }
   }
 
-  rateSection = (userRating) => {
-    this.context.model.rateSection(this.props.courseCode, this.props.ratingType, userRating, this.props.courseName)
+  rateSection = async (userRating) => {
+    await this.context.model.rateSection(this.props.courseCode, this.props.ratingType, userRating, this.props.courseName)
     let newRatings = this.state.ratings
     newRatings.push(userRating)
     this.setState({ ratings: newRatings });
-    window.alert(`Rated ${this.props.title}!`)
+    window.alert(`Rated ${this.props.title} ${userRating}/5!`)
   }
 
   postComment = () => {
@@ -61,27 +65,23 @@ class CommentGroup extends React.Component {
             {this.props.ratingType != undefined && <span className="badge badge-info float-right">Rating: {getAvgRating(this.state.ratings)} </span>}
           </h5>
         </div>
-
         <div id={`collapse-${commentType}`} className="collapse" aria-labelledby="headingOne" data-parent="#accordion">
           <div className="card-body">
+            <div className="row">
+              <div className="col">Rate subsection:</div>
+              <div className="col">
+                <fieldset class="rating">
+                  {this.state.ratingTypes.map(rating=>{
+                      return <><input type="radio" id={`star${rating[0]}${title}`} className="rating" value={rating[0]} onClick={() => {this.rateSection(rating[0])}}/><label className ={rating[2]} for={`star${rating[0]}${title}`} title={rating[1]}></label></>;  
+                  })}
+                </fieldset>
+              </div>             
+            </div>          
             <div className="input-group mb-3">
               <input type="text" className="form-control" placeholder="Comment here" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onCommentInputChange} value={this.state.commentInput} />
               <div className="input-group-append">
                 <button className="btn btn-dark" type="button" onClick={this.postComment}>Comment</button>
               </div>
-              {this.props.ratingType != undefined &&
-                <>
-                  <button className="btn btn-info ml-2 dropdown-toggle" type="button" id={`dropdown-btn-${title}`} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Rate
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby={`dropdown-btn-${title}`}>
-                    {
-                      [...Array(10).keys()].map(num => (
-                        <a key={num} className="dropdown-item btn" href="#" onClick={() => { this.rateSection(num) }}>{num}</a>
-                      ))
-                    }
-                  </div>
-                </>}
             </div>
             <ul className="list-group">
               <CommentList comments={comments ? comments : null} />

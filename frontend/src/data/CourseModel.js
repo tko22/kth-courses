@@ -5,7 +5,12 @@ const BASE_URL_DB = "https://kth-courses-backend.tko.now.sh/api/courses"
 
 class CourseModel {
     constructor() {
+    this.state = {ratingTypes: [[5, "Awesome - 5 stars", "full"], [4.5, "Really good - 4.5 stars", "half"], [4, "Good - 4 stars", "full"], [3.5, "3.5 stars", "half"], [3, "3 stars", "full"], [2.5, "Average - 2.5 stars", "half"], [2, "2 stars", "full"], [1.5, "1.5 stars", "half"], [1, "Meh - 1 stars", "full"], [0.5, "Bad - 0.5 star", "half"]]}
     }
+    getRatingTypes() {
+        return this.state.ratingTypes;
+    }
+
     processResponse(response) {
         if (response.ok) {
             return response.json();

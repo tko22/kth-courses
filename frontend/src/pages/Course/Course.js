@@ -12,7 +12,7 @@ import { getAvgRating, timeout } from '../../common/utilities'
 class Course extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { status: "LOADING", courseKTH: null, courseDB: null, ratings: [[5, "Awesome - 5 stars", "full"], [4.5, "Really good - 4.5 stars", "half"], [4, "Good - 4 stars", "full"], [3.5, "3.5 stars", "half"], [3, "3 stars", "full"], [2.5, "Average - 2.5 stars", "half"], [2, "2 stars", "full"], [1.5, "1.5 stars", "half"], [1, "Meh - 1 stars", "full"], [0.5, "Bad - 0.5 star", "half"]]}
+    this.state = { status: "LOADING", courseKTH: null, courseDB: null, ratingTypes:[]}
   }
 
   goBack = () => {
@@ -20,6 +20,7 @@ class Course extends React.Component {
   }
 
   async componentDidMount() {
+    this.state.ratingTypes = this.context.model.getRatingTypes();
     let code = this.props.match.params.code;
     const courseKTH = await this.context.model.getCourseKTH(code);
     if (courseKTH === undefined) {
@@ -52,7 +53,7 @@ class Course extends React.Component {
       newCourseDB.ratings = [userRating]
     }
     this.setState({ courseDB: newCourseDB });
-    window.alert("Rated Course!")
+    window.alert(`Rated Course ${userRating}/5!`)
   }
 
   setFavourite(courseCode) {
@@ -93,11 +94,12 @@ class Course extends React.Component {
           </div>
           <div className="col-md-8">
             <div className="row">{courseKTH && courseKTH.course && <h2>{courseKTH.course.courseCode}: {courseKTH.course.title}</h2>}</div>
+            <div className="row ml-2 mb-3"></div>
             <div className="row pb-3 ml-2">
               <div className="col"><span style={{ fontSize: "14px" }} className="badge badge-pill badge-info p-2">Overall rating: {courseDB && courseDB.ratings ? getAvgRating(courseDB.ratings) : "DNE"}</span></div>
               <div className="col">
                 <fieldset class="rating">
-                  {this.state.ratings.map(rating=>{
+                  {this.state.ratingTypes.map(rating=>{
                       return <><input type="radio" id={`star${rating[0]}`} className="rating" value={rating[0]} onClick={() => {this.postRating(rating[0])}}/><label className ={rating[2]} for={`star${rating[0]}`} title={rating[1]}></label></>;  
                   })}
                 </fieldset>
@@ -106,6 +108,7 @@ class Course extends React.Component {
             <div className="row">
               <div className="col"><button className="btn btn-info" type="button" id="favButton" onClick={() => {this.setFavourite(courseKTH.course.courseCode)}}>Favourite</button></div>
             </div>
+            <div className="row ml-2 mb-3"></div>
             <div className="row ml-2 mb-5">
               {courseKTH && courseKTH.course &&
                 <div className="course-info">
