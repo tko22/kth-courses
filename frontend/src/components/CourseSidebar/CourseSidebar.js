@@ -29,7 +29,8 @@ class CourseSidebar extends React.Component {
 
           <p><b>Main Subjects: </b> {courseKTH.mainSubjects.join(', ')}</p>
           <p><b>Contact: </b> {course.infoContactName}</p>
-
+          <p>Grade Scales:  {courseKTH.formattedGradeScales[course.gradeScaleCode]}
+          </p>
 
           <p style={{ fontSize: "12px" }}><a href={courseKTH.socialCoursePageUrl}>visit course site</a></p>
         </div>
