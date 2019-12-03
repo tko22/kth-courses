@@ -27,7 +27,7 @@ class Banner extends React.Component {
 
     return (
       <div className="row">
-        <div className="container">
+        <div className="col">
           <ul class="nav justify-content-center">
             <li class="nav-item">
               <a class="nav-item nav-link active" href="#" onClick={() => this.props.history.push("/")}>Home<span class="sr-only">(current)</span></a>
@@ -37,18 +37,18 @@ class Banner extends React.Component {
             </li>
           </ul> 
         </div>
-          <div id="header" className="header d-flex align-items-center justify-content-center container-fluid">
-            <div className="row">
+        <div id="header" className="header d-flex align-items-center justify-content-center container-fluid">
+          <div className="row">
               <h1 className="display-4 mx-auto">KTH COURSE RATE</h1>            
-              <div className="input-group mb-3">
+            <div className="input-group mb-3">
                 <input type="text" className="form-control" placeholder="Search Courses with Keywords" aria-label="Input" aria-describedby="basic-addon2" onChange={this.onSearchInputChange} value={this.state.searchInput} onKeyUp={this.handleKeyPress.bind(this)}/>
-                <div className="input-group-append">
-                  <button className="btn btn-dark" type="button" onClick={this.search}>Search</button>
-                </div>
+              <div className="input-group-append">
+                <button className="btn btn-dark" type="button" onClick={this.search}>Search</button>
               </div>
             </div>
           </div>
         </div>
+      </div>
     )
   }
 }

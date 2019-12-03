@@ -5,7 +5,6 @@ import Course from './pages/Course/Course';
 import Banner from './components/Banner/Banner';
 import Search from './pages/Search/Search';
 import modelInstance from "./data/CourseModel";
-import Profile from './pages/Profile/Profile'
 import { ModelContext } from "./ModelContext"
 import './App.css';
 

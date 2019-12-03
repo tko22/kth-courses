@@ -3,6 +3,8 @@ import './Listed.css'
 import { Link } from 'react-router-dom';
 import { ModelContext } from '../../ModelContext'
 import ListGroupItem from '../../components/ListGroupItem/ListGroupItem';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary'
+
 
 
 class Listed extends React.Component {
@@ -21,28 +23,30 @@ class Listed extends React.Component {
 
   listCourses(courses) {
     let htmlCourses = (
-      <div>
-        <table className="table table-sm table-hover text-left">
-          <tr className="text-secondary">
-            <th scope="col">Code</th>
-            <th scope="col">Title</th>
-            <th scope="col">Credits</th>
-            <th scope="col">Level</th>
-            <th scope="col">State</th>
-          </tr>
-          <tbody>
-            {courses.map(course => (
-              <tr key={course.code} onClick={() => this.courseClicked(course.code)}>
-                <td>{course.code}</td>
-                <td>{course.title}</td>
-                <td>{course.credits} {course.creditUnitAbbr}</td>
-                <td>{course.level}</td>
-                <td><span className={`badge ${course.state === "CANCELLED" ? "badge-danger" : (course.state === "ESTABLISHED" ? "badge-primary" : "badge-secondary")}`}>{course.state}</span></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ErrorBoundary>
+        <div>
+          <table className="table table-sm table-hover text-left">
+            <tr className="text-secondary">
+              <th scope="col">Code</th>
+              <th scope="col">Title</th>
+              <th scope="col">Credits</th>
+              <th scope="col">Level</th>
+              <th scope="col">State</th>
+            </tr>
+            <tbody>
+              {courses.map(course => (
+                <tr key={course.code} onClick={() => this.courseClicked(course.code)}>
+                  <td>{course.code}</td>
+                  <td>{course.title}</td>
+                  <td>{course.credits} {course.creditUnitAbbr}</td>
+                  <td>{course.level}</td>
+                  <td><span className={`badge ${course.state === "CANCELLED" ? "badge-danger" : (course.state === "ESTABLISHED" ? "badge-primary" : "badge-secondary")}`}>{course.state}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </ErrorBoundary>
     );
     return htmlCourses
   }
@@ -57,7 +61,7 @@ class Listed extends React.Component {
       case "":
         const schools = await this.context.model.getSchools();
         let htmlSchools = schools.map(school => (
-          <ListGroupItem link={`/school/${school.name}`} name={<>{school.name.split("/")[0]}<br />{school.name.split("/")[1]}</>} />
+          <ErrorBoundary><ListGroupItem link={`/school/${school.name}`} name={<>{school.name.split("/")[0]}<br />{school.name.split("/")[1]}</>} /></ErrorBoundary>
         ));
         this.setState({ status: "LOADED", htmlList: htmlSchools, url: "All schools:" });
         break;
@@ -65,7 +69,7 @@ class Listed extends React.Component {
       case "school":
         const depts = await this.context.model.getDepartments(code);
         let htmlDepts = depts.map(dept => (
-          <ListGroupItem link={`/department/${dept.code}/${dept.name}`} name={<>{dept.code}<br />{dept.name.split("/")[1]}</>} />
+          <ErrorBoundary><ListGroupItem link={`/department/${dept.code}/${dept.name}`} name={<>{dept.code}<br />{dept.name.split("/")[1]}</>} /></ErrorBoundary>
         ));
         this.setState({ status: "LOADED", htmlList: htmlDepts, url: `School:\n${this.props.match.params.name}` });
         break;
