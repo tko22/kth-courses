@@ -45,7 +45,6 @@ class CourseModel {
         return fetch(`${proxyurl}${BASE_URL_KTH}/courses?l=en`, headers)
             .then(this.processResponse)
             .then(response => { return response.filter(course => { return (course.department.split(" ")[0] === deptCode && course.state !== "CANCELLED") }) })
-            //.then(response => {return response.filter(course=>{return (course.department.split(" ")[0]===deptCode)})})
             .catch(error => {
                 console.error("Error:", error);
             });
@@ -88,7 +87,7 @@ class CourseModel {
             method: "POST",
             mode: "cors",
             body: JSON.stringify({ type: commentType, comment: text })
-        }) //${courseCode}`)
+        })
             .then(this.processResponse)
             .catch(error => {
                 console.error("Error:", error);

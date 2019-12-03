@@ -13,7 +13,6 @@ class CourseSidebar extends React.Component {
     if (!courseKTH) {
       return <div className="filter-box"><p>"Loading"</p></div>
     }
-    throw new Error('CourseSidebar.js line 16');
     const { course } = courseKTH
     return (
       <div className="filter-box" >
@@ -31,8 +30,10 @@ class CourseSidebar extends React.Component {
           <p><b>Contact: </b> {course.infoContactName}</p>
           <p>Grade Scales:  {courseKTH.formattedGradeScales[course.gradeScaleCode]}
           </p>
-
-          <p style={{ fontSize: "12px" }}><a href={courseKTH.socialCoursePageUrl}>visit course site</a></p>
+          {
+            !course.cancelled && !course.deactivated ? <p style={{ fontSize: "14px" }}><a href={courseKTH.socialCoursePageUrl}>visit course site</a></p> : <p></p>
+          }
+          
         </div>
       </div >
     )

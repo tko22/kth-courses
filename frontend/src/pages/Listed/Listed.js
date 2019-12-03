@@ -33,11 +33,11 @@ class Listed extends React.Component {
           <tbody>
             {courses.map(course => (
               <tr key={course.code} onClick={() => this.courseClicked(course.code)}>
-                <th>{course.code}</th>
-                <th>{course.title}</th>
-                <th>{course.credits} {course.creditUnitAbbr}</th>
-                <th>{course.level}</th>
-                <th><span className={`badge ${course.state === "CANCELLED" ? "badge-danger" : (course.state === "ESTABLISHED" ? "badge-primary" : "badge-secondary")}`}>{course.state}</span></th>
+                <td>{course.code}</td>
+                <td>{course.title}</td>
+                <td>{course.credits} {course.creditUnitAbbr}</td>
+                <td>{course.level}</td>
+                <td><span className={`badge ${course.state === "CANCELLED" ? "badge-danger" : (course.state === "ESTABLISHED" ? "badge-primary" : "badge-secondary")}`}>{course.state}</span></td>
               </tr>
             ))}
           </tbody>
@@ -59,7 +59,7 @@ class Listed extends React.Component {
         let htmlSchools = schools.map(school => (
           <ListGroupItem link={`/school/${school.name}`} name={<>{school.name.split("/")[0]}<br />{school.name.split("/")[1]}</>} />
         ));
-        this.setState({ status: "LOADED", htmlList: htmlSchools, url: "Master's Studies" });
+        this.setState({ status: "LOADED", htmlList: htmlSchools, url: "All schools:" });
         break;
 
       case "school":
@@ -67,14 +67,14 @@ class Listed extends React.Component {
         let htmlDepts = depts.map(dept => (
           <ListGroupItem link={`/department/${dept.code}/${dept.name}`} name={<>{dept.code}<br />{dept.name.split("/")[1]}</>} />
         ));
-        this.setState({ status: "LOADED", htmlList: htmlDepts, url: `School: ${this.props.match.params.name}` });
+        this.setState({ status: "LOADED", htmlList: htmlDepts, url: `School:\n${this.props.match.params.name}` });
         break;
 
       case "department":
         const deptJSON = await this.context.model.getCourses(code);
         const courses = deptJSON.courses;
         let htmlCourses = this.listCourses(courses);
-        this.setState({ status: "LOADED", htmlList: htmlCourses, url: `Department ${deptJSON.department}` });
+        this.setState({ status: "LOADED", htmlList: htmlCourses, url: `Department:\n${deptJSON.department}` });
         break;
 
       case "profile":

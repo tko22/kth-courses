@@ -92,6 +92,7 @@ class Course extends React.Component {
           <div className="col-md-4">
             <ErrorBoundary><CourseSidebar courseKTH={courseKTH} /></ErrorBoundary>
             <button className="btn btn-outline-info float-left" onClick={this.goBack}>Back</button>
+            <button className="btn btn-outline-info" type="button" id="favButton" onClick={() => {this.setFavourite(courseKTH.course.courseCode)}}>Favourite</button>
           </div>
           <div className="col-md-8">
             <ErrorBoundary><div className="row">{courseKTH && courseKTH.course && <h2>{courseKTH.course.courseCode}: {courseKTH.course.title}</h2>}</div></ErrorBoundary>
@@ -109,9 +110,6 @@ class Course extends React.Component {
                   </ErrorBoundary>
                 </fieldset>
               </div>
-            </div>
-            <div className="row">
-              <div className="col"><button className="btn btn-info" type="button" id="favButton" onClick={() => {this.setFavourite(courseKTH.course.courseCode)}}>Favourite</button></div>
             </div>
             <div className="row ml-2 mb-3"></div>
             <div className="row ml-2 mb-5">

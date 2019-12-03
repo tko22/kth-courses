@@ -1,6 +1,7 @@
 #root {
   font-family: 'Montserrat', sans-serif;
 }
+body{ white-space:pre-wrap; }
 
 h1{
   color: rgb(60, 64, 65);
@@ -53,4 +54,16 @@ h1{
   }
 .btn-right{
   float: right;
+}
+a:link {
+  color: #17a2b8;
+}
+a:visited {
+  color: #128799;
+}
+a:hover {
+  color: #e3821b;
+}
+a:active {
+  color: #0d6675;
 }

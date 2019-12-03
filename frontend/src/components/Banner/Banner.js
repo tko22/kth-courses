@@ -30,12 +30,12 @@ class Banner extends React.Component {
         <div className="container">
           <ul class="nav justify-content-center">
             <li class="nav-item">
-              <a class="nav-item nav-link active"onClick={() => this.props.history.push("/")}>Home<span class="sr-only">(current)</span></a>
+              <a class="nav-item nav-link active" href="#" onClick={() => this.props.history.push("/")}>Home<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-item nav-link" onClick={() => this.props.history.push("/profile")}>Profile</a>
+              <a class="nav-item nav-link" href="#" onClick={() => this.props.history.push("/profile")}>Profile</a>
             </li>
-          </ul>
+          </ul> 
         </div>
           <div id="header" className="header d-flex align-items-center justify-content-center container-fluid">
             <div className="row">
